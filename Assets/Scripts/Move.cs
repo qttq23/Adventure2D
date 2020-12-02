@@ -10,6 +10,11 @@ public class Move : MonoBehaviour
     public float timeJump = 0.3f;
     public float timeAttack = 0.8f;
 
+    // stub
+    public FootCollide footCollide;
+    public Weapon weapon;
+    public bool isUsedByAutoMove = false;
+
     Rigidbody2D rigid;
     Vector2 movement;
     Animator animator;
@@ -31,33 +36,49 @@ public class Move : MonoBehaviour
         rigid = gameObject.GetComponent<Rigidbody2D>();
         animator = gameObject.GetComponent<Animator>();
         movement = new Vector2();
+
+        footCollide.parent = this;
+        weapon.parent = this;
     }
 
     // Update is called once per frame
     void Update()
     {
-    	// get jump input
-        if (Input.GetKeyDown(KeyCode.Space) && countJump < 2)
+        if (!isUsedByAutoMove)
         {
-            countJump++;
-            countJumpTemp++;
-            StartCoroutine(jump(timeJump));
-        }
+            // get jump input
+            if (Input.GetKeyDown(KeyCode.Space) && countJump < 2)
+            {
+                countJump++;
+                countJumpTemp++;
+                StartCoroutine(jump(timeJump));
+            }
 
-        // get attack input
-        if (Input.GetKey(KeyCode.Mouse0) && !isAttack)
-        {
-            isAttack = true;
-            StartCoroutine(attack(timeAttack));
-        }
+            // get attack input
+            if (Input.GetKey(KeyCode.Mouse0) && !isAttack)
+            {
+                isAttack = true;
+                StartCoroutine(attack(timeAttack));
+            }
 
-        // get move input
-        movement.x = Input.GetAxisRaw("Horizontal");
+            // get move input
+            movement.x = Input.GetAxisRaw("Horizontal");
+
+        }
 
         // show animattion
         if (isAttack)
         {
             animator.SetInteger("moveType", (int)MoveType.attack);
+
+            // can turn right/left while attacking
+            if(movement.x > 0){
+                turnRight();
+            }
+            else if(movement.x < 0){
+                turnRight(false);
+            }
+
         }
         else if (countJump > 0)
         {
@@ -93,7 +114,7 @@ public class Move : MonoBehaviour
     IEnumerator jump(float timeUp)
     {
 
-    	// if double jump, increase the time jump, down
+        // if double jump, increase the time jump, down
         if (countJump == 2)
         {
             timeUp *= 1.75f;
@@ -107,8 +128,9 @@ public class Move : MonoBehaviour
 
         // time in the air, when gravity pull object down
         movement.y = 0;
-        while(!isFootCollide) {
-        	yield return new WaitForSeconds(0.1f);
+        while (!isFootCollide)
+        {
+            yield return new WaitForSeconds(0.1f);
         }
 
         countJumpTemp--;
@@ -120,9 +142,12 @@ public class Move : MonoBehaviour
 
     IEnumerator attack(float seconds)
     {
-    	// time for display animation attack
+        weapon.Fire(true);
+
+        // time for display animation attack
         yield return new WaitForSeconds(seconds);
         isAttack = false;
+        weapon.Fire(false);
     }
 
 
@@ -134,9 +159,41 @@ public class Move : MonoBehaviour
     }
 
     // child foot object collided, and signal parent
-    public void OnFootCollide(){
-    	isFootCollide = true;
+    public void handleFootCollided()
+    {
+        isFootCollide = true;
     }
 
+    public void handleWeaponCollided(GameObject gameObj = null)
+    {
+        print("weapon collided: " + gameObj.name);
+
+        // then damage enemies if needed...
+    }
+
+
+    // api for AutoMoveAttack
+    public void apiGoRight(bool isRight = true)
+    {
+
+        if (isRight)
+        {
+            movement.x = 1;
+        }
+        else
+        {
+            movement.x = -1;
+        }
+    }
+
+    public void apiAttack()
+    {
+        if (!isAttack)
+        {
+            isAttack = true;
+            StartCoroutine(attack(timeAttack));
+
+        }
+    }
 
 }

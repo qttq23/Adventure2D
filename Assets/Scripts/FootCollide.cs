@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FootCollide : MonoBehaviour
 {
+    [HideInInspector]
+    public Move parent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,8 +22,8 @@ public class FootCollide : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
     	// tell parent object
-    	var move = gameObject.transform.parent.gameObject.GetComponent<Move>();
-    	move.OnFootCollide();
+    	// var move = gameObject.transform.parent.gameObject.GetComponent<Move>();
+    	parent.handleFootCollided();
     }
 
 }
