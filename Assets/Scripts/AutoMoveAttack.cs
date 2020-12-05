@@ -6,11 +6,13 @@ public class AutoMoveAttack : MonoBehaviour
 {
     public Move move;
     public GameObject objectToChase;
+    public UltiCollide ulti;
 
     // Start is called before the first frame update
     void Start()
     {
-        // move = gameObject.GetComponent<Move>();
+    	ulti.parent = this;
+        Invoke("chargeUlti", 1f);
     }
 
     // Update is called once per frame
@@ -56,4 +58,20 @@ public class AutoMoveAttack : MonoBehaviour
         }
     }
 
+    // make ulti full for using
+    void chargeUlti(){
+
+        print("ready for ulti");
+    	ulti.CanUlti(true);
+    }
+
+    public void handleObjectInRangeUlti(GameObject obj){
+
+        print("fire ulti");
+        
+        ulti.CanUlti(false);
+
+    	move.apiUlti();
+    	ulti.Fire();
+    }
 }

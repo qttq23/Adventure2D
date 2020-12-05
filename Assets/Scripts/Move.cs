@@ -23,12 +23,15 @@ public class Move : MonoBehaviour
         idle = 0,
         walk = 1,
         jump = 2,
-        attack = 3
+        attack = 3,
+        util = 4
     }
     int countJump = 0;
     int countJumpTemp = 0;
     bool isFootCollide = false;
     bool isAttack = false;
+    bool isUlti = false;
+    bool canMove = true;
 
     // Start is called before the first frame update
     void Start()
@@ -67,7 +70,11 @@ public class Move : MonoBehaviour
         }
 
         // show animattion
-        if (isAttack)
+        if(isUlti){
+            animator.SetInteger("moveType", (int)MoveType.util);
+
+        }
+        else if (isAttack)
         {
             animator.SetInteger("moveType", (int)MoveType.attack);
 
@@ -105,6 +112,8 @@ public class Move : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!canMove) return;
+
         // actually move the object
         rigid.velocity = movement * speed;
 
@@ -148,6 +157,15 @@ public class Move : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         isAttack = false;
         weapon.Fire(false);
+    }
+
+    IEnumerator ulti(float seconds)
+    {
+        // time for display animation attack
+        canMove = false;
+        yield return new WaitForSeconds(seconds);
+        isUlti = false;
+        canMove = true;
     }
 
 
@@ -194,6 +212,15 @@ public class Move : MonoBehaviour
             StartCoroutine(attack(timeAttack));
 
         }
+    }
+
+    public void apiUlti(){
+        if(isUlti) return;
+
+        // flag to show animation
+        isUlti = true;
+        StartCoroutine(ulti(1.5f));
+
     }
 
 }
