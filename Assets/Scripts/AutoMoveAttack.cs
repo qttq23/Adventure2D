@@ -6,7 +6,9 @@ public class AutoMoveAttack : MonoBehaviour
 {
     public Move move;
     public GameObject objectToChase;
-    public UltiCollide ulti;
+    public UltiController ulti;
+
+    bool isDoingUlti = false;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,7 @@ public class AutoMoveAttack : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(isDoingUlti) return;
 
         // detect position to chase
         if (transform.position.x < objectToChase.transform.position.x)
@@ -50,7 +53,7 @@ public class AutoMoveAttack : MonoBehaviour
 
     void handleObjectInRange(Collider2D collision)
     {
-    	if(!enabled) return;
+    	if(!enabled || isDoingUlti) return;
 
         if (GameObject.ReferenceEquals( collision.gameObject, objectToChase))
         {
@@ -62,16 +65,24 @@ public class AutoMoveAttack : MonoBehaviour
     void chargeUlti(){
 
         print("ready for ulti");
-    	ulti.CanUlti(true);
+        ulti.CanUlti(true);
     }
 
     public void handleObjectInRangeUlti(GameObject obj){
 
         print("fire ulti");
+        isDoingUlti = true;
         
-        ulti.CanUlti(false);
+        move.apiUlti(ulti.utliDurationTime);
 
-    	move.apiUlti();
-    	ulti.Fire();
+        ulti.CanUlti(false);
+        ulti.Fire();
+
+
+    }
+
+    public void handleUltiDone(){
+        print("ulti done");
+        isDoingUlti = false;
     }
 }

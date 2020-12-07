@@ -16,7 +16,8 @@ public class Move : MonoBehaviour
     public bool isUsedByAutoMove = false;
 
     Rigidbody2D rigid;
-    Vector2 movement;
+    [HideInInspector]
+    public Vector2 movement;
     Animator animator;
     enum MoveType
     {
@@ -162,7 +163,7 @@ public class Move : MonoBehaviour
     IEnumerator ulti(float seconds)
     {
         // time for display animation attack
-        canMove = false;
+        // canMove = false;
         yield return new WaitForSeconds(seconds);
         isUlti = false;
         canMove = true;
@@ -214,12 +215,12 @@ public class Move : MonoBehaviour
         }
     }
 
-    public void apiUlti(){
+    public void apiUlti(float utliDurationTime){
         if(isUlti) return;
 
         // flag to show animation
         isUlti = true;
-        StartCoroutine(ulti(1.5f));
+        StartCoroutine(ulti(utliDurationTime));
 
     }
 
