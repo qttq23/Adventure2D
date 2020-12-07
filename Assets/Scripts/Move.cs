@@ -13,9 +13,11 @@ public class Move : MonoBehaviour
     // stub
     public FootCollide footCollide;
     public Weapon weapon;
+    public UltiController ultiController;
     public bool isUsedByAutoMove = false;
 
-    Rigidbody2D rigid;
+    [HideInInspector]
+    public Rigidbody2D rigid;
     [HideInInspector]
     public Vector2 movement;
     Animator animator;
@@ -43,6 +45,9 @@ public class Move : MonoBehaviour
 
         footCollide.parent = this;
         weapon.parent = this;
+        if(ultiController){
+            ultiController.parent = this;
+        }
     }
 
     // Update is called once per frame
@@ -50,6 +55,12 @@ public class Move : MonoBehaviour
     {
         if (!isUsedByAutoMove)
         {
+            // get ulti input
+            if (Input.GetKeyDown(KeyCode.Mouse1) && !isUlti)
+            {
+                apiUlti();
+            }
+
             // get jump input
             if (Input.GetKeyDown(KeyCode.Space) && countJump < 2)
             {
@@ -163,7 +174,7 @@ public class Move : MonoBehaviour
     IEnumerator ulti(float seconds)
     {
         // time for display animation attack
-        // canMove = false;
+        canMove = false;
         yield return new WaitForSeconds(seconds);
         isUlti = false;
         canMove = true;
@@ -175,6 +186,12 @@ public class Move : MonoBehaviour
         var scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * (isRight ? 1 : -1);
         transform.localScale = scale;
+    }
+
+    public bool IsTurnRight(){
+        var scale = transform.localScale;
+        return scale.x > 0;
+
     }
 
     // child foot object collided, and signal parent
@@ -215,13 +232,18 @@ public class Move : MonoBehaviour
         }
     }
 
-    public void apiUlti(float utliDurationTime){
-        if(isUlti) return;
+    public void apiUlti(){
+        if(isUlti || !ultiController.CanUlti()) return;
 
         // flag to show animation
         isUlti = true;
-        StartCoroutine(ulti(utliDurationTime));
+        StartCoroutine(ulti(ultiController.utliDurationTime));
+        ultiController.Fire();
 
+    }
+
+    public void handleUltiDone(){
+        print("move: ulti is done");
     }
 
 }

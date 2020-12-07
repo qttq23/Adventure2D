@@ -6,21 +6,22 @@ public class AutoMoveAttack : MonoBehaviour
 {
     public Move move;
     public GameObject objectToChase;
-    public UltiController ulti;
+    public WeaponRange weaponRange;
+    public UltiRange ultiRange;
 
-    bool isDoingUlti = false;
+    [HideInInspector]
+    public bool isDoingUlti = false;
 
     // Start is called before the first frame update
     void Start()
     {
-    	ulti.parent = this;
-        Invoke("chargeUlti", 1f);
-    }
+        weaponRange.parent = this;
 
-    // Update is called once per frame
-    void Update()
-    {
-
+        if(ultiRange){
+           ultiRange.parent = this;
+           ultiRange.SetCheck(true);
+            
+        }
     }
 
     void FixedUpdate()
@@ -40,49 +41,34 @@ public class AutoMoveAttack : MonoBehaviour
 
     }
 
-
-    void OnTriggerEnter2D(Collider2D collision)
+    public void handleObjectInWeaponRange(GameObject obj)
     {
-        handleObjectInRange(collision);
+        if(isDoingUlti) return;
+
+        move.apiAttack();
     }
 
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        handleObjectInRange(collision);
-    }
 
-    void handleObjectInRange(Collider2D collision)
-    {
-    	if(!enabled || isDoingUlti) return;
+    public void handleObjectInUltiRange(GameObject obj){
 
-        if (GameObject.ReferenceEquals( collision.gameObject, objectToChase))
-        {
-            move.apiAttack();
-        }
-    }
-
-    // make ulti full for using
-    void chargeUlti(){
-
-        print("ready for ulti");
-        ulti.CanUlti(true);
-    }
-
-    public void handleObjectInRangeUlti(GameObject obj){
+        if(!move.ultiController.CanUlti()) return;
 
         print("fire ulti");
         isDoingUlti = true;
+        ultiRange.SetCheck(false);
+
+        move.apiUlti();
+        StartCoroutine(waitUltiDone(move.ultiController.utliDurationTime));
         
-        move.apiUlti(ulti.utliDurationTime);
-
-        ulti.CanUlti(false);
-        ulti.Fire();
-
-
     }
 
-    public void handleUltiDone(){
+    IEnumerator waitUltiDone(float seconds){
+
+        yield return new WaitForSeconds(seconds);
         print("ulti done");
-        isDoingUlti = false;
+        isDoingUlti = false; 
+        ultiRange.SetCheck(true);
     }
+
+
 }

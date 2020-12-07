@@ -6,56 +6,40 @@ public class UltiController : MonoBehaviour
 {
 
 	[HideInInspector]
-	public AutoMoveAttack parent;
+	public Move parent;
+	public float timeToAvailable = 1f;
 	public float utliDurationTime = 2f;
-	bool canUlti = false;
-	List<Collider2D> colliders = new List<Collider2D>();
-
+	
+	protected bool canUlti = false;
 
 	// Start is called before the first frame update
     void Start()
     {
-        
+    	StartCoroutine(chargeUlti());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    IEnumerator chargeUlti(){
+
+    	yield return new WaitForSeconds(this.timeToAvailable);
+    	this.canUlti = true;	
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        handleObjectInRangeUlti(collision);
-    }
-
-    void OnTriggerStay2D(Collider2D collision)
-    {
-        handleObjectInRangeUlti(collision);
-    }
-
-    void handleObjectInRangeUlti(Collider2D collision){
-        if (canUlti && GameObject.ReferenceEquals( collision.gameObject, parent.objectToChase))
-        {
-            if (!colliders.Contains(collision))
-            {
-                colliders.Add(collision);
-                parent.handleObjectInRangeUlti(collision.gameObject);
-            }
-
-        }
-    }
-
-
-    public void CanUlti(bool canUlti){
-    	this.canUlti = canUlti;
-    	colliders.Clear();
+    public bool CanUlti(){
+    	return canUlti;
     }
 
     virtual public void Fire(){
 
     	// TODO: custom ulti for each characters
 
+    }
+
+    protected void handleUltiDone(){
+    	this.canUlti = false;
+    	StartCoroutine(chargeUlti());
+
+    	// signal parent
+    	parent.handleUltiDone();
     }
 
 }

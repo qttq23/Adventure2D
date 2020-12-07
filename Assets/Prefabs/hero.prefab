@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &808351881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808351882}
+  - component: {fileID: 808351883}
+  m_Layer: 0
+  m_Name: ulti
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &808351882
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808351881}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8151431789996329699}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &808351883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808351881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77604300648bed441ba16fd3e2fa2bae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 0}
+  timeToAvailable: 1
+  utliDurationTime: 3
+  balloonPrefab: {fileID: 3268867056492297571, guid: 51e46461718de784ca3b115e14713ff1,
+    type: 3}
 --- !u!1 &8151431789996329700
 GameObject:
   m_ObjectHideFlags: 0
@@ -34,6 +82,7 @@ Transform:
   m_Children:
   - {fileID: 8151431790173114714}
   - {fileID: 333574480}
+  - {fileID: 808351882}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -126,7 +175,10 @@ MonoBehaviour:
   timeAttack: 0.8
   footCollide: {fileID: 8151431790173114712}
   weapon: {fileID: 333574482}
+  ultiController: {fileID: 808351883}
   isUsedByAutoMove: 0
+  rigid: {fileID: 0}
+  movement: {x: 0, y: 0}
 --- !u!95 &8151431789996329698
 Animator:
   serializedVersion: 3
