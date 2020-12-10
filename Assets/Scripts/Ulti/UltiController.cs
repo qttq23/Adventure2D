@@ -9,19 +9,48 @@ public class UltiController : MonoBehaviour
 	public Move parent;
 	public float timeToAvailable = 1f;
 	public float utliDurationTime = 2f;
-	
-	protected bool canUlti = false;
+
+
+    public delegate void OnPercentUltiChanged(float percent);
+    public event OnPercentUltiChanged EventPercentUltiChanged;
+    [HideInInspector]
+    public float PercentUlti {  get { return timePass/timeToAvailable;}}
+
+    protected bool canUlti = false;
+    protected float timePass = 0;
 
 	// Start is called before the first frame update
     void Start()
     {
-    	StartCoroutine(chargeUlti());
+    	// StartCoroutine(chargeUlti());
     }
 
-    IEnumerator chargeUlti(){
+    // IEnumerator chargeUlti(){
 
-    	yield return new WaitForSeconds(this.timeToAvailable);
-    	this.canUlti = true;	
+    // 	yield return new WaitForSeconds(this.timeToAvailable);
+    // 	this.canUlti = true;
+
+    //     while(true){
+
+
+    //     }
+    // }
+
+    void FixedUpdate(){
+        if(!canUlti){
+
+            setTimePass(timePass + Time.fixedDeltaTime);
+
+            if(timePass >= timeToAvailable){
+                canUlti = true;
+            }
+        }
+    }
+
+    public void setTimePass(float seconds){
+        timePass = Mathf.Clamp(seconds, 0, timeToAvailable);
+        EventPercentUltiChanged?.Invoke(PercentUlti);
+
     }
 
     public bool CanUlti(){
@@ -36,7 +65,8 @@ public class UltiController : MonoBehaviour
 
     protected void handleUltiDone(){
     	this.canUlti = false;
-    	StartCoroutine(chargeUlti());
+        setTimePass(0);
+    	// StartCoroutine(chargeUlti());
 
     	// signal parent
     	parent.handleUltiDone();

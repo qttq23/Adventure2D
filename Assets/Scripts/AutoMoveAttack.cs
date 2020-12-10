@@ -53,7 +53,7 @@ public class AutoMoveAttack : MonoBehaviour
 
         if(!move.ultiController.CanUlti()) return;
 
-        print("fire ulti");
+        // print("fire ulti");
         isDoingUlti = true;
         ultiRange.SetCheck(false);
 
@@ -65,7 +65,7 @@ public class AutoMoveAttack : MonoBehaviour
     IEnumerator waitUltiDone(float seconds){
 
         yield return new WaitForSeconds(seconds);
-        print("ulti done");
+        // print("ulti done");
         isDoingUlti = false; 
         ultiRange.SetCheck(true);
     }

@@ -11,7 +11,7 @@ public class UltiDemon : UltiController
 		if(!this.canUlti) return;
 
     	// TODO: custom ulti for each characters
-		print("firing ulti...");
+		// print("firing ulti...");
 		StartCoroutine(skill());
 
 	}

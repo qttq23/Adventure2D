@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2848205016112269754}
   - component: {fileID: 2848205016112269757}
   - component: {fileID: 2848205016112269756}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 2848205016542446438}
   - component: {fileID: 2848205016542446441}
   - component: {fileID: 2848205016542446440}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: boss
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 2848205016905483999}
   - component: {fileID: 2848205016905483969}
   - component: {fileID: 2848205016905483998}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2848205017401094886}
   - component: {fileID: 2848205017401094887}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ulti
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,6 +377,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: autoMoveAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 551353353012916288, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 551353353012916290, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
         type: 3}
@@ -442,6 +447,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 551353353178901929, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 551353353241405038, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b86dc449cf34a54f972c5c0936a4a7b, type: 3}

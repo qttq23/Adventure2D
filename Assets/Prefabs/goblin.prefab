@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3744194685877208363}
   - component: {fileID: 1157522691099937600}
   - component: {fileID: 3849187254301634674}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 5390218710780688687}
   - component: {fileID: 6870141989408436468}
   - component: {fileID: 5079414922898545492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 6925872575546820549}
   - component: {fileID: 6925872575546820550}
   - component: {fileID: 4626790899689104301}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6925872575678143022}
   - component: {fileID: 6925872575678143023}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: autoMoveAttack
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 6726513981531038500}
   - component: {fileID: 465875854069127962}
   - component: {fileID: 3287130042633673359}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: goblin
   m_TagString: enemy
   m_Icon: {fileID: 0}

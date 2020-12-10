@@ -99,10 +99,7 @@ public class Move : MonoBehaviour
             }
 
         }
-        else if (countJump > 0)
-        {
-            animator.SetInteger("moveType", (int)MoveType.jump);
-        }
+        
         else if (movement.x > 0)
         {
             turnRight();
@@ -112,6 +109,10 @@ public class Move : MonoBehaviour
         {
             turnRight(false);
             animator.SetInteger("moveType", (int)MoveType.walk);
+        }
+        else if (countJump > 0)
+        {
+            animator.SetInteger("moveType", (int)MoveType.jump);
         }
         else
         {
@@ -202,7 +203,7 @@ public class Move : MonoBehaviour
 
     public void handleWeaponCollided(GameObject gameObj = null)
     {
-        print("weapon collided: " + gameObj.name);
+        // print("weapon collided: " + gameObj.name);
 
         // then damage enemies if needed...
     }
@@ -243,7 +244,7 @@ public class Move : MonoBehaviour
     }
 
     public void handleUltiDone(){
-        print("move: ulti is done");
+        // print("move: ulti is done");
     }
 
 }
