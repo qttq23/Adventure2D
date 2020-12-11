@@ -17,41 +17,51 @@ public class AutoMoveAttack : MonoBehaviour
     {
         weaponRange.parent = this;
 
-        if(ultiRange){
-           ultiRange.parent = this;
-           ultiRange.SetCheck(true);
-            
+        if (ultiRange)
+        {
+            ultiRange.parent = this;
+            ultiRange.SetCheck(true);
+
         }
+
+        StartCoroutine(chase(2f));
     }
 
-    void FixedUpdate()
+    // void FixedUpdate()
+    IEnumerator chase(float secondsForNextDetect)
     {
-        if(isDoingUlti) return;
-
-        // detect position to chase
-        if (transform.position.x < objectToChase.transform.position.x)
+        while (true)
         {
-            move.apiGoRight(true);
-        }
-        else
-        {
-            move.apiGoRight(false);
+            yield return new WaitForSeconds(secondsForNextDetect);
+            if (isDoingUlti) continue;
 
+            // detect position to chase
+            if (transform.position.x < objectToChase.transform.position.x)
+            {
+                move.apiGoRight(true);
+            }
+            else
+            {
+                move.apiGoRight(false);
+
+            }
         }
+
 
     }
 
     public void handleObjectInWeaponRange(GameObject obj)
     {
-        if(isDoingUlti) return;
+        if (isDoingUlti) return;
 
         move.apiAttack();
     }
 
 
-    public void handleObjectInUltiRange(GameObject obj){
+    public void handleObjectInUltiRange(GameObject obj)
+    {
 
-        if(!move.ultiController.CanUlti()) return;
+        if (!move.ultiController.CanUlti()) return;
 
         // print("fire ulti");
         isDoingUlti = true;
@@ -59,14 +69,15 @@ public class AutoMoveAttack : MonoBehaviour
 
         move.apiUlti();
         StartCoroutine(waitUltiDone(move.ultiController.utliDurationTime));
-        
+
     }
 
-    IEnumerator waitUltiDone(float seconds){
+    IEnumerator waitUltiDone(float seconds)
+    {
 
         yield return new WaitForSeconds(seconds);
         // print("ulti done");
-        isDoingUlti = false; 
+        isDoingUlti = false;
         ultiRange.SetCheck(true);
     }
 

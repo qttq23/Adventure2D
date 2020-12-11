@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2848205016112269754}
   - component: {fileID: 2848205016112269757}
   - component: {fileID: 2848205016112269756}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.37266085, y: 0.17945836}
+  m_Offset: {x: 0.15563646, y: 0.1253256}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.89938956, y: 0.6979728}
+  m_Size: {x: 0.46534073, y: 0.6922746}
   m_EdgeRadius: 0
 --- !u!114 &2848205016112269756
 MonoBehaviour:
@@ -85,7 +85,8 @@ GameObject:
   - component: {fileID: 2848205016542446438}
   - component: {fileID: 2848205016542446441}
   - component: {fileID: 2848205016542446440}
-  m_Layer: 10
+  - component: {fileID: 525990348}
+  m_Layer: 8
   m_Name: boss
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -201,6 +202,7 @@ MonoBehaviour:
   weapon: {fileID: 2848205016112269756}
   ultiController: {fileID: 2848205017401094887}
   isUsedByAutoMove: 1
+  tagsIgnoredDamage: []
   rigid: {fileID: 0}
   movement: {x: 0, y: 0}
 --- !u!61 &2848205016542446441
@@ -248,6 +250,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &525990348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2848205016542446443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf29341fc7b2558428386b39c0dd5b9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 10
+  maxHealth: 10
+  attack: 7
+  defense: 5
 --- !u!1 &2848205016905483968
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,7 +277,7 @@ GameObject:
   - component: {fileID: 2848205016905483999}
   - component: {fileID: 2848205016905483969}
   - component: {fileID: 2848205016905483998}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -329,7 +347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2848205017401094886}
   - component: {fileID: 2848205017401094887}
-  m_Layer: 10
+  m_Layer: 8
   m_Name: ulti
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,6 +383,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   timeToAvailable: 1
   utliDurationTime: 2
+  ultiDamage: 0
   fastSpeed: 35
 --- !u!1001 &2848205017365059093
 PrefabInstance:
@@ -381,7 +400,7 @@ PrefabInstance:
     - target: {fileID: 551353353012916288, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 551353353012916290, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
         type: 3}
@@ -451,12 +470,12 @@ PrefabInstance:
     - target: {fileID: 551353353178901929, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 551353353241405038, guid: 3b86dc449cf34a54f972c5c0936a4a7b,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b86dc449cf34a54f972c5c0936a4a7b, type: 3}

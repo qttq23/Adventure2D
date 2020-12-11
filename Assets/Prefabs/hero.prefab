@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 607844270}
   - component: {fileID: 607844271}
   - component: {fileID: 607844272}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: inventory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3877055, y: -0.026542187}
+  m_Offset: {x: -0.5649331, y: -0.026542187}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,7 +56,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.6133919, y: 3.7073069}
+  m_Size: {x: 1.7863299, y: 3.7073069}
   m_EdgeRadius: 0
 --- !u!114 &607844272
 MonoBehaviour:
@@ -117,7 +117,8 @@ MonoBehaviour:
   parent: {fileID: 0}
   timeToAvailable: 5
   utliDurationTime: 3
-  balloonPrefab: {fileID: 3268867056492297571, guid: 51e46461718de784ca3b115e14713ff1,
+  ultiDamage: 10
+  balloonPrefab: {fileID: 3268867056492297575, guid: 51e46461718de784ca3b115e14713ff1,
     type: 3}
 --- !u!1 &8151431789996329700
 GameObject:
@@ -250,6 +251,7 @@ MonoBehaviour:
   weapon: {fileID: 333574482}
   ultiController: {fileID: 808351883}
   isUsedByAutoMove: 0
+  tagsIgnoredDamage: []
   rigid: {fileID: 0}
   movement: {x: 0, y: 0}
 --- !u!95 &8151431789996329698
@@ -311,7 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 5
   maxHealth: 10
-  attack: 3
+  attack: 10
   defense: 3
 --- !u!1001 &7174089111775146232
 PrefabInstance:

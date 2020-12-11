@@ -9,6 +9,7 @@ public class UltiController : MonoBehaviour
 	public Move parent;
 	public float timeToAvailable = 1f;
 	public float utliDurationTime = 2f;
+    public float ultiDamage = 10f;
 
 
     public delegate void OnPercentUltiChanged(float percent);
@@ -69,7 +70,7 @@ public class UltiController : MonoBehaviour
     	// StartCoroutine(chargeUlti());
 
     	// signal parent
-    	parent.handleUltiDone();
+        parent.handleUltiDone();
     }
 
 }

@@ -5,7 +5,9 @@ using UnityEngine;
 public class UltiKnight : UltiController
 {
 
-	public GameObject balloonPrefab;
+	public BallonEffect balloonPrefab;
+
+
 	float originGravity;
 
 	public override void Fire(){
@@ -15,13 +17,14 @@ public class UltiKnight : UltiController
     	// TODO: custom ulti for each characters
 		print("firing ulti...");
 		
-		// set no gravity
+		// set no gravity to lock character's position
 		originGravity = parent.rigid.gravityScale;
 		parent.rigid.gravityScale = 0;
 		parent.rigid.velocity = new Vector2(0, 0);
 
 		// create effect
-		var ballon = Instantiate(balloonPrefab, transform.position, transform.rotation);
+		BallonEffect ballon = Instantiate(balloonPrefab, transform.position, transform.rotation);
+		ballon.EventObjectInRange += handleObjectInBallonRange;
 		StartCoroutine(waitBallonDestroy(ballon.GetComponent<SelfDestroy>().afterSeconds));
 	}
 
@@ -33,6 +36,13 @@ public class UltiKnight : UltiController
 
 		// signal parent
 		this.handleUltiDone();
+
+	}
+
+	
+	void handleObjectInBallonRange(GameObject obj){
+
+		parent.handleObjectInUltiRange(obj);
 
 	}
 
