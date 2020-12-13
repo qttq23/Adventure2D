@@ -140,6 +140,7 @@ public class Move : MonoBehaviour
         if (!canMove) return;
 
         // actually move the object
+        // movement.Normalize();
         rigid.velocity = movement * speed;
 
     }
