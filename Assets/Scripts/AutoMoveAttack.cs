@@ -8,9 +8,12 @@ public class AutoMoveAttack : MonoBehaviour
     public GameObject objectToChase;
     public WeaponRange weaponRange;
     public UltiRange ultiRange;
+    public TriggerColliderController triggerCollider;
 
     [HideInInspector]
     public bool isDoingUlti = false;
+    bool isTargetInRange = false;
+    bool isMovingToRight = false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,30 +24,37 @@ public class AutoMoveAttack : MonoBehaviour
         {
             ultiRange.parent = this;
             ultiRange.SetCheck(true);
-
         }
 
-        StartCoroutine(chase(2f));
+
+        if (triggerCollider)
+        {
+            triggerCollider.EventObjectInOut += handleObjectInTriggerColliderRange;
+        }
+
+        StartCoroutine(makeDecision(2f));
     }
 
     // void FixedUpdate()
-    IEnumerator chase(float secondsForNextDetect)
+    IEnumerator makeDecision(float secondsForNextDetect)
     {
         while (true)
         {
             yield return new WaitForSeconds(secondsForNextDetect);
+
             if (isDoingUlti) continue;
 
-            // detect position to chase
-            if (transform.position.x < objectToChase.transform.position.x)
+            if (!isTargetInRange)
             {
-                move.apiGoRight(true);
+                moveRandom();
             }
             else
             {
-                move.apiGoRight(false);
-
+                // object already in rage
+                moveTowardObject();
             }
+
+
         }
 
 
@@ -52,6 +62,7 @@ public class AutoMoveAttack : MonoBehaviour
 
     public void handleObjectInWeaponRange(GameObject obj)
     {
+        if (!isTargetInRange) return;
         if (isDoingUlti) return;
 
         move.apiAttack();
@@ -61,6 +72,7 @@ public class AutoMoveAttack : MonoBehaviour
     public void handleObjectInUltiRange(GameObject obj)
     {
 
+        if (!isTargetInRange) return;
         if (!move.ultiController.CanUlti()) return;
 
         // print("fire ulti");
@@ -81,5 +93,37 @@ public class AutoMoveAttack : MonoBehaviour
         ultiRange.SetCheck(true);
     }
 
+    void handleObjectInTriggerColliderRange(GameObject obj, bool isIn)
+    {
+
+        if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+
+        isTargetInRange = isIn;
+        print("obj in range: " + obj.name);
+
+    }
+
+    void moveRandom()
+    {
+        // if character is moving to the right side
+        // we want it to reverse direction -> go to the left
+        move.apiGoRight(!isMovingToRight);
+        isMovingToRight = !isMovingToRight;
+    }
+
+    void moveTowardObject()
+    {
+        if (transform.position.x < objectToChase.transform.position.x)
+        {
+            move.apiGoRight(true);
+            isMovingToRight = true;
+        }
+        else
+        {
+            move.apiGoRight(false);
+            isMovingToRight = false;
+
+        }
+    }
 
 }
