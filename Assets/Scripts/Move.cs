@@ -13,10 +13,14 @@ public class Move : MonoBehaviour
     // stub
     public FootCollide footCollide;
     public Weapon weapon;
+    public UltiController ultiController;
     public bool isUsedByAutoMove = false;
+    public List<string> tagsIgnoredDamage = new List<string>();
 
-    Rigidbody2D rigid;
-    Vector2 movement;
+    [HideInInspector]
+    public Rigidbody2D rigid;
+    [HideInInspector]
+    public Vector2 movement;
     Animator animator;
     enum MoveType
     {
@@ -24,7 +28,8 @@ public class Move : MonoBehaviour
         walk = 1,
         jump = 2,
         attack = 3,
-        util = 4
+        util = 4,
+        die = 5
     }
     int countJump = 0;
     int countJumpTemp = 0;
@@ -32,6 +37,7 @@ public class Move : MonoBehaviour
     bool isAttack = false;
     bool isUlti = false;
     bool canMove = true;
+    bool isDie = false;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +48,10 @@ public class Move : MonoBehaviour
 
         footCollide.parent = this;
         weapon.parent = this;
+        if (ultiController)
+        {
+            ultiController.parent = this;
+        }
     }
 
     // Update is called once per frame
@@ -49,6 +59,12 @@ public class Move : MonoBehaviour
     {
         if (!isUsedByAutoMove)
         {
+            // get ulti input
+            if (Input.GetKeyDown(KeyCode.Mouse1) && !isUlti)
+            {
+                apiUlti();
+            }
+
             // get jump input
             if (Input.GetKeyDown(KeyCode.Space) && countJump < 2)
             {
@@ -70,7 +86,13 @@ public class Move : MonoBehaviour
         }
 
         // show animattion
-        if(isUlti){
+        if (isDie)
+        {
+            animator.SetInteger("moveType", (int)MoveType.die);
+
+        }
+        else if (isUlti)
+        {
             animator.SetInteger("moveType", (int)MoveType.util);
 
         }
@@ -79,18 +101,17 @@ public class Move : MonoBehaviour
             animator.SetInteger("moveType", (int)MoveType.attack);
 
             // can turn right/left while attacking
-            if(movement.x > 0){
+            if (movement.x > 0)
+            {
                 turnRight();
             }
-            else if(movement.x < 0){
+            else if (movement.x < 0)
+            {
                 turnRight(false);
             }
 
         }
-        else if (countJump > 0)
-        {
-            animator.SetInteger("moveType", (int)MoveType.jump);
-        }
+
         else if (movement.x > 0)
         {
             turnRight();
@@ -100,6 +121,10 @@ public class Move : MonoBehaviour
         {
             turnRight(false);
             animator.SetInteger("moveType", (int)MoveType.walk);
+        }
+        else if (countJump > 0)
+        {
+            animator.SetInteger("moveType", (int)MoveType.jump);
         }
         else
         {
@@ -112,7 +137,7 @@ public class Move : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!canMove) return;
+        if (!canMove) return;
 
         // actually move the object
         rigid.velocity = movement * speed;
@@ -151,10 +176,11 @@ public class Move : MonoBehaviour
 
     IEnumerator attack(float seconds)
     {
+        yield return new WaitForSeconds(seconds * 4 / 5);
         weapon.Fire(true);
 
         // time for display animation attack
-        yield return new WaitForSeconds(seconds);
+        yield return new WaitForSeconds(seconds * 1 / 5);
         isAttack = false;
         weapon.Fire(false);
     }
@@ -176,17 +202,45 @@ public class Move : MonoBehaviour
         transform.localScale = scale;
     }
 
+    public bool IsTurnRight()
+    {
+        var scale = transform.localScale;
+        return scale.x > 0;
+
+    }
+
     // child foot object collided, and signal parent
     public void handleFootCollided()
     {
         isFootCollide = true;
     }
 
-    public void handleWeaponCollided(GameObject gameObj = null)
+    public void handleWeaponCollided(GameObject other)
     {
-        print("weapon collided: " + gameObj.name);
+        print("" + gameObject.name + " attack: " + other.name);
+
+        // check tags
+        if (tagsIgnoredDamage.Contains(other.tag)) return;
 
         // then damage enemies if needed...
+        var hp = gameObject.GetComponent<HP>();
+        var otherHp = other.GetComponent<HP>();
+        if (!hp || !otherHp) return;
+
+        otherHp.ChangeHealth(-1 * hp.attack);
+
+    }
+
+    public void handleObjectInUltiRange(GameObject other)
+    {
+        // check tags
+        if (tagsIgnoredDamage.Contains(other.tag)) return;
+
+        var otherHp = other.GetComponent<HP>();
+        if (!otherHp) return;
+
+        print("Move.cs: damage: " + other.name);
+        otherHp.ChangeHealth(-1 * ultiController.ultiDamage);
     }
 
 
@@ -214,13 +268,39 @@ public class Move : MonoBehaviour
         }
     }
 
-    public void apiUlti(){
-        if(isUlti) return;
+    public void apiUlti()
+    {
+        if (isUlti || !ultiController.CanUlti()) return;
 
         // flag to show animation
         isUlti = true;
-        StartCoroutine(ulti(1.5f));
+        StartCoroutine(ulti(ultiController.utliDurationTime));
+        ultiController.Fire();
 
+    }
+
+    public void handleUltiDone()
+    {
+        // print("move: ulti is done");
+    }
+
+    public void apiDie()
+    {
+
+        // show anim
+        isDie = true;
+
+        // wait some seconds then destroy
+        StartCoroutine(waitThenDestroy(2f));
+
+    }
+
+    IEnumerator waitThenDestroy(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        // Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
 }

@@ -4,22 +4,13 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    // public List<string> tagsAttacked = new List<string>();
+
     [HideInInspector]
     public Move parent;
     bool isFire = false;
     List<Collider2D> colliders = new List<Collider2D>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void Fire(bool isFire)
     {
@@ -38,7 +29,9 @@ public class Weapon : MonoBehaviour
     }
 
     void handleWeaponCollided(Collider2D collision){
-        if (isFire && collision.gameObject.CompareTag("enemy"))
+        // if (isFire && collision.gameObject.CompareTag("enemy"))
+        // if (isFire && tagsAttacked.Contains(collision.gameObject.tag))
+        if (isFire)
         {
             if (!colliders.Contains(collision))
             {
