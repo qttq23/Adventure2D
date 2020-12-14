@@ -261,6 +261,8 @@ MonoBehaviour:
   objectToChase: {fileID: 0}
   weaponRange: {fileID: 4626790899689104301}
   ultiRange: {fileID: 0}
+  triggerCollider: {fileID: 0}
+  timeToMakeDecision: 2
   isDoingUlti: 0
 --- !u!1 &7560042646388755274
 GameObject:
@@ -339,7 +341,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: d0a696aca5471834ba7382b1ad52974e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -384,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa18b29ee02c5e64386ef64839ec0f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 1.5
   jumpHeight: 2.5
   timeJump: 0.3
   timeAttack: 0.8
@@ -455,4 +457,4 @@ MonoBehaviour:
   currentHealth: 5
   maxHealth: 5
   attack: 2
-  defense: 1
+  defense: 3

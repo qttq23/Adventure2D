@@ -9,6 +9,7 @@ public class AutoMoveAttack : MonoBehaviour
     public WeaponRange weaponRange;
     public UltiRange ultiRange;
     public TriggerColliderController triggerCollider;
+    public float timeToMakeDecision = 2f;
 
     [HideInInspector]
     public bool isDoingUlti = false;
@@ -32,7 +33,7 @@ public class AutoMoveAttack : MonoBehaviour
             triggerCollider.EventObjectInOut += handleObjectInTriggerColliderRange;
         }
 
-        StartCoroutine(makeDecision(2f));
+        StartCoroutine(makeDecision(timeToMakeDecision));
     }
 
     // void FixedUpdate()
