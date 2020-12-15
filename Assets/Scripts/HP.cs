@@ -36,8 +36,8 @@ public class HP : MonoBehaviour
 
 		if(currentHealth <= 0){
 			StartCoroutine(showDamageEffect(3f));
-			var move = gameObject.GetComponent<Move>();
-			move?.apiDie();
+			// var move = gameObject.GetComponent<Move>();
+			// move?.apiDie();
 
 		}
 

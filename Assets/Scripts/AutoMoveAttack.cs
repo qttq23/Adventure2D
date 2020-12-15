@@ -100,7 +100,7 @@ public class AutoMoveAttack : MonoBehaviour
         if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
 
         isTargetInRange = isIn;
-        print("obj in range: " + obj.name);
+        // print("obj in range: " + obj.name);
 
     }
 

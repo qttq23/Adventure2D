@@ -247,11 +247,15 @@ MonoBehaviour:
   jumpHeight: 2
   timeJump: 0.3
   timeAttack: 0.8
+  timeAttackDelay: 0.05
+  timeBlockWhenDamaged: 0.5
+  timeShowDealth: 2
   footCollide: {fileID: 8151431790173114712}
   weapon: {fileID: 333574482}
   ultiController: {fileID: 808351883}
   isUsedByAutoMove: 0
-  tagsIgnoredDamage: []
+  tagsIgnoredDamage:
+  - Player
   rigid: {fileID: 0}
   movement: {x: 0, y: 0}
 --- !u!95 &8151431789996329698
@@ -313,7 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 5
   maxHealth: 10
-  attack: 10
+  attack: 5
   defense: 3
 --- !u!1001 &7174089111775146232
 PrefabInstance:
@@ -325,12 +329,12 @@ PrefabInstance:
     - target: {fileID: 1337789060076446114, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.91
+      value: -0.92
       objectReference: {fileID: 0}
     - target: {fileID: 1337789060076446114, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.88
+      value: -1.979
       objectReference: {fileID: 0}
     - target: {fileID: 1337789060076446114, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}
@@ -385,7 +389,7 @@ PrefabInstance:
     - target: {fileID: 1337789060076446115, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}
       propertyPath: m_Offset.y
-      value: 0.14134045
+      value: -0.018752413
       objectReference: {fileID: 0}
     - target: {fileID: 1337789060076446115, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}
@@ -395,7 +399,7 @@ PrefabInstance:
     - target: {fileID: 1337789060076446115, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.4295065
+      value: 0.10932079
       objectReference: {fileID: 0}
     - target: {fileID: 1337789060076446117, guid: 3599ad3ef3c089d40b276d30d1319ec2,
         type: 3}

@@ -19,17 +19,18 @@ public class FootCollide : MonoBehaviour
 
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-    	// tell parent object
-    	// var move = gameObject.transform.parent.gameObject.GetComponent<Move>();
-    	parent.handleFootCollided();
-    }
+    // void OnTriggerEnter2D(Collider2D collision)
+    // {
+    // 	// tell parent object
+    // 	// var move = gameObject.transform.parent.gameObject.GetComponent<Move>();
+    // 	parent.handleFootCollided();
+    // }
 
     void OnTriggerStay2D(Collider2D collision)
     {
+        if(collision.gameObject.GetComponent<Collider2D>().isTrigger) return;
+        
         // tell parent object
-        // var move = gameObject.transform.parent.gameObject.GetComponent<Move>();
         parent.handleFootCollided();
     }
 

@@ -390,11 +390,15 @@ MonoBehaviour:
   jumpHeight: 2.5
   timeJump: 0.3
   timeAttack: 0.8
+  timeAttackDelay: 0.2
+  timeBlockWhenDamaged: 0.5
+  timeShowDealth: 2
   footCollide: {fileID: 6870141989408436468}
   weapon: {fileID: 3849187254301634674}
   ultiController: {fileID: 0}
   isUsedByAutoMove: 1
-  tagsIgnoredDamage: []
+  tagsIgnoredDamage:
+  - enemy
   rigid: {fileID: 0}
   movement: {x: 0, y: 0}
 --- !u!61 &465875854069127962
@@ -454,7 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf29341fc7b2558428386b39c0dd5b9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 5
-  maxHealth: 5
+  currentHealth: 10
+  maxHealth: 20
   attack: 2
   defense: 3

@@ -60,7 +60,7 @@ public class UltiController : MonoBehaviour
 
     virtual public void Fire(){
 
-    	// TODO: custom ulti for each characters
+    	// TODO: custom ulti for each character
 
     }
 

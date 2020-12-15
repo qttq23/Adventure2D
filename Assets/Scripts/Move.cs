@@ -9,6 +9,9 @@ public class Move : MonoBehaviour
     public float jumpHeight = 2.5f;
     public float timeJump = 0.3f;
     public float timeAttack = 0.8f;
+    public float timeAttackDelay = 0.2f;
+    public float timeBlockWhenDamaged = 0.5f;
+    public float timeShowDealth = 2f;
 
     // stub
     public FootCollide footCollide;
@@ -29,7 +32,8 @@ public class Move : MonoBehaviour
         jump = 2,
         attack = 3,
         util = 4,
-        die = 5
+        die = 5,
+        hurt = 6
     }
     int countJump = 0;
     int countJumpTemp = 0;
@@ -38,6 +42,9 @@ public class Move : MonoBehaviour
     bool isUlti = false;
     bool canMove = true;
     bool isDie = false;
+    HP hp;
+    float lastHealth;
+    int hurtCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +58,13 @@ public class Move : MonoBehaviour
         if (ultiController)
         {
             ultiController.parent = this;
+        }
+
+        hp = gameObject.GetComponent<HP>();
+        if (hp)
+        {
+            lastHealth = hp.currentHealth;
+            hp.EventHealthChanged += handleHealthChanged;
         }
     }
 
@@ -77,7 +91,7 @@ public class Move : MonoBehaviour
             if (Input.GetKey(KeyCode.Mouse0) && !isAttack)
             {
                 isAttack = true;
-                StartCoroutine(attack(timeAttack));
+                StartCoroutine(attack(timeAttack, timeAttackDelay));
             }
 
             // get move input
@@ -89,7 +103,9 @@ public class Move : MonoBehaviour
         if (isDie)
         {
             animator.SetInteger("moveType", (int)MoveType.die);
-
+        }
+        else if(hurtCount > 0){
+            animator.SetInteger("moveType", (int)MoveType.hurt);
         }
         else if (isUlti)
         {
@@ -137,7 +153,7 @@ public class Move : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!canMove) return;
+        if (!canMove || isDie) return;
 
         // actually move the object
         // movement.Normalize();
@@ -175,13 +191,19 @@ public class Move : MonoBehaviour
         }
     }
 
-    IEnumerator attack(float seconds)
+    IEnumerator attack(float seconds, float delaySeconds)
     {
-        yield return new WaitForSeconds(seconds * 4 / 5);
-        weapon.Fire(true);
+        // delay time
+        yield return new WaitForSeconds(delaySeconds);
 
-        // time for display animation attack
+        // some padding time for weapon to collide in view
+        yield return new WaitForSeconds(seconds * 4 / 5);
+
+        // real damage
+        weapon.Fire(true);
         yield return new WaitForSeconds(seconds * 1 / 5);
+        
+        // done, turn off attack
         isAttack = false;
         weapon.Fire(false);
     }
@@ -218,6 +240,8 @@ public class Move : MonoBehaviour
 
     public void handleWeaponCollided(GameObject other)
     {
+        if(isDie || hurtCount > 0) return;
+
         print("" + gameObject.name + " attack: " + other.name);
 
         // check tags
@@ -234,6 +258,8 @@ public class Move : MonoBehaviour
 
     public void handleObjectInUltiRange(GameObject other)
     {
+        if(isDie || hurtCount > 0) return;
+
         // check tags
         if (tagsIgnoredDamage.Contains(other.tag)) return;
 
@@ -264,7 +290,7 @@ public class Move : MonoBehaviour
         if (!isAttack)
         {
             isAttack = true;
-            StartCoroutine(attack(timeAttack));
+            StartCoroutine(attack(timeAttack, timeAttackDelay));
 
         }
     }
@@ -292,7 +318,7 @@ public class Move : MonoBehaviour
         isDie = true;
 
         // wait some seconds then destroy
-        StartCoroutine(waitThenDestroy(2f));
+        StartCoroutine(waitThenDestroy(timeShowDealth));
 
     }
 
@@ -302,6 +328,45 @@ public class Move : MonoBehaviour
 
         // Destroy(gameObject);
         gameObject.SetActive(false);
+    }
+
+    public void handleHealthChanged(float newHealth)
+    {
+
+        print("" + gameObject.name + ": " + newHealth );
+
+        if (newHealth <= 0)
+        {
+            apiDie();
+            return;
+        }
+
+        float delta = newHealth - lastHealth;
+        lastHealth = newHealth;
+        print("" + gameObject.name + ", delta: " + delta );
+        if (delta < 0)
+        {
+            apiHurt();
+            return;
+        }
+
+    }
+
+    public void apiHurt()
+    {
+        // show anim
+        // character stops all damage (attack, ulti) to enemies 
+        hurtCount++;
+
+        // wait some seconds then recover
+        StartCoroutine(waitThenRecover(timeBlockWhenDamaged));
+    }
+
+    IEnumerator waitThenRecover(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        hurtCount--;
     }
 
 }

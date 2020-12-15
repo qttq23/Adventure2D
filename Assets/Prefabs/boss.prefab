@@ -198,11 +198,15 @@ MonoBehaviour:
   jumpHeight: 2.5
   timeJump: 0.3
   timeAttack: 0.8
+  timeAttackDelay: 0.5
+  timeBlockWhenDamaged: 0.5
+  timeShowDealth: 10
   footCollide: {fileID: 2848205016905483969}
   weapon: {fileID: 2848205016112269756}
   ultiController: {fileID: 2848205017401094887}
   isUsedByAutoMove: 1
-  tagsIgnoredDamage: []
+  tagsIgnoredDamage:
+  - enemy
   rigid: {fileID: 0}
   movement: {x: 0, y: 0}
 --- !u!61 &2848205016542446441
@@ -264,7 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHealth: 10
   maxHealth: 10
-  attack: 7
+  attack: 5
   defense: 5
 --- !u!1 &2848205016905483968
 GameObject:
@@ -381,7 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
-  timeToAvailable: 1
+  timeToAvailable: 15
   utliDurationTime: 2
   ultiDamage: 0
   fastSpeed: 35
