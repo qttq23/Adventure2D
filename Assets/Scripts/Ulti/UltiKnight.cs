@@ -5,45 +5,50 @@ using UnityEngine;
 public class UltiKnight : UltiController
 {
 
-	public BallonEffect balloonPrefab;
+    public BallonEffect balloonPrefab;
 
 
-	float originGravity;
+    float originGravity;
 
-	public override void Fire(){
+    public override void Fire()
+    {
 
-		if(!this.canUlti) return;
+        if (!this.canUlti) return;
 
-    	// TODO: custom ulti for each characters
-		print("firing ulti...");
-		
-		// set no gravity to lock character's position
-		originGravity = parent.rigid.gravityScale;
-		parent.rigid.gravityScale = 0;
-		parent.rigid.velocity = new Vector2(0, 0);
+        // TODO: custom ulti for each characters
+        print("firing ulti...");
 
-		// create effect
-		BallonEffect ballon = Instantiate(balloonPrefab, transform.position, transform.rotation);
-		ballon.EventObjectInRange += handleObjectInBallonRange;
-		StartCoroutine(waitBallonDestroy(ballon.GetComponent<SelfDestroy>().afterSeconds));
-	}
+        // set no gravity to lock character's position
+        originGravity = parent.Rigid.gravityScale;
+        parent.Rigid.gravityScale = 0;
+        parent.Rigid.velocity = new Vector2(0, 0);
 
-	IEnumerator waitBallonDestroy(float seconds){
+        // create effect
+        BallonEffect ballon = Instantiate(balloonPrefab, transform.position, transform.rotation);
+        ballon.EventObjectInRange += handleObjectInBallonRange;
+        StartCoroutine(waitBallonDestroy(ballon.GetComponent<SelfDestroy>().afterSeconds));
+    }
 
-		yield return new WaitForSeconds(seconds);
-		// re-set gravity
-		parent.rigid.gravityScale = originGravity;
+    IEnumerator waitBallonDestroy(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        print("UltiKnight.cs: ballon destroyed");
 
-		// signal parent
-		this.handleUltiDone();
+        // re-set gravity
+        parent.Rigid.gravityScale = originGravity;
 
-	}
+        // signal parent
+        this.handleUltiDone();
 
-	
-	void handleObjectInBallonRange(GameObject obj){
+    }
 
-		parent.handleObjectInUltiRange(obj);
 
-	}
+    void handleObjectInBallonRange(GameObject obj)
+    {
+        // parent.handleObjectInUltiRange(obj);
+        // EventObjectInUltiRange?.Invoke(obj);
+        this.handleObjectInRange(obj);
+
+    }
 
 }

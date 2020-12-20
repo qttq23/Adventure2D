@@ -6,6 +6,8 @@ public class Inventory : MonoBehaviour
 {
 
 	public int numCoin = 0;
+
+	// used by UI such as CoinBar
 	public delegate void OnCoinChanged(int newValue);
 	public event OnCoinChanged EventCoinChanged;
 
