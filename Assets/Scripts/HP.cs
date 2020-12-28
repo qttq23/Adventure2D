@@ -25,20 +25,20 @@ public class HP : MonoBehaviour
 
 	public void ChangeHealth(float value){
 
+		// apply defense then apply to current health
 		value = applyDefense(value);
 		if(value < 0){
 			StartCoroutine(showDamageEffect(0.2f));
 		}
-
 		currentHealth = Mathf.Clamp(currentHealth + value, 0, maxHealth);
+
+		// signal UI component
 		EventHealthChanged?.Invoke(currentHealth);
 		print("HP: currentHealth: " + currentHealth);
 
+		// show long effect if die
 		if(currentHealth <= 0){
 			StartCoroutine(showDamageEffect(3f));
-			var move = gameObject.GetComponent<Move>();
-			move?.apiDie();
-
 		}
 
 	}

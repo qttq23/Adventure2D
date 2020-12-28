@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Physics2D.IgnoreLayerCollision(9, 8, true);
+        Physics2D.IgnoreLayerCollision(9, 11, true);
     }
 
     // Update is called once per frame

@@ -22,7 +22,7 @@ public class UltiDemon : UltiController
 
         // get orign for later use
         var originSpeed = parent.speed;
-        var originMovement = parent.movement;
+        var originMovement = parent.Movement;
 
         // prepare
         var direction = new Vector2(1, 0);
@@ -31,21 +31,22 @@ public class UltiDemon : UltiController
             direction *= -1;
         }
 
+        /// -----------> fix this: record Ulti animation, trigger script when collide
         // fire weapon
-        parent.weapon.Fire(true);
+        // parent.weaponCollider.Fire(true);
 
         // move fast forward
-        parent.rigid.velocity = direction * fastSpeed;
+        parent.Rigid.velocity = direction * fastSpeed;
         yield return new WaitForSeconds(utliDurationTime / 2);
 
         // move fast backward
-        parent.rigid.velocity = direction * -1 * fastSpeed;
+        parent.Rigid.velocity = direction * -1 * fastSpeed;
         yield return new WaitForSeconds(utliDurationTime / 2);
 
         // re-set to origin value
-        parent.rigid.velocity = originMovement * originSpeed;
+        parent.Rigid.velocity = originMovement * originSpeed;
         // stop weapon
-        parent.weapon.Fire(false);
+        // parent.weaponCollider.Fire(false);
 
         // signal parent
         this.handleUltiDone();
@@ -55,8 +56,8 @@ public class UltiDemon : UltiController
     // skill ver2: go through
     // {
     // no gravity, and only trigger
-    // 	 var originGravity = parent.rigid.gravityScale;
-    // 	 parent.rigid.gravityScale = 0;
+    // 	 var originGravity = parent.Rigid.gravityScale;
+    // 	 parent.Rigid.gravityScale = 0;
     // 	 parent.gameObject.GetComponent<Collider2D>().isTrigger = true;
     // parent.weapon.Fire(true);
     // wait forward...
