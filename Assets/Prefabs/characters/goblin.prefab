@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9004568615223837540}
   - component: {fileID: 9004568615607605037}
   - component: {fileID: 9004568615223837541}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 9004568615607605039}
   - component: {fileID: 9004568615607605036}
   - component: {fileID: 9004568615607605011}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: goblin
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -275,6 +275,7 @@ MonoBehaviour:
   ultiController: {fileID: 0}
   isUsedByAutoMove: 1
   tagsIgnoredDamage: []
+  Id: 0
 --- !u!1 &9004568616175503293
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,7 +287,7 @@ GameObject:
   - component: {fileID: 9004568616175503292}
   - component: {fileID: 9004568616175503294}
   - component: {fileID: 9004568616175503295}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: WeaponRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9004568616679414804}
   - component: {fileID: 9004568616679414807}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: autoMoveAttack
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -407,7 +408,7 @@ GameObject:
   - component: {fileID: 9004568617026863519}
   - component: {fileID: 9004568615607605010}
   - component: {fileID: 9004568617026863516}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

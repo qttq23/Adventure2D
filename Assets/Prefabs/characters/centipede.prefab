@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 48670225}
   - component: {fileID: 48670226}
   - component: {fileID: 48670227}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 3574414823777377100}
   - component: {fileID: 38372870}
   - component: {fileID: 38372869}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: centipede
   m_TagString: enemy
   m_Icon: {fileID: 0}

@@ -12,6 +12,10 @@ public class AutoMoveAttack : MonoBehaviour
     public TriggerColliderController triggerCollider;
     public float timeToMakeDecision = 2f;
 
+    public int layerToChase;
+    float minDistance = 9999;
+
+
     [HideInInspector]
     public bool isDoingUlti = false;
     bool isTargetInRange = false;
@@ -19,6 +23,11 @@ public class AutoMoveAttack : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
+    {
+        StartCoroutine(checkCanStartAfter(2f));
+    }
+
+    void realStart()
     {
         // weaponRange.parent = this;
         weaponRange.EventObjectIn += handleObjectInWeaponRange;
@@ -37,6 +46,16 @@ public class AutoMoveAttack : MonoBehaviour
         }
 
         StartCoroutine(makeDecision(timeToMakeDecision));
+    }
+
+    IEnumerator checkCanStartAfter(float seconds)
+    {
+
+        while (characterController.isUsedByRemote)
+        {
+            yield return new WaitForSeconds(seconds);
+        }
+        realStart();
     }
 
     // void FixedUpdate()
@@ -71,7 +90,8 @@ public class AutoMoveAttack : MonoBehaviour
     {
         if (!isTargetInRange) return;
         if (isDoingUlti) return;
-        if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+        // if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+        if (obj.layer != layerToChase) return;
 
         characterController.apiAttack();
     }
@@ -79,7 +99,8 @@ public class AutoMoveAttack : MonoBehaviour
 
     public void handleObjectInUltiRange(GameObject obj)
     {
-        if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+        // if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+        if (obj.layer != layerToChase) return;
         if (!isTargetInRange) return;
         if (!characterController.ultiController.CanUlti()) return;
 
@@ -104,7 +125,15 @@ public class AutoMoveAttack : MonoBehaviour
     void handleObjectInTriggerColliderRange(GameObject obj, bool isIn)
     {
 
-        if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+        // if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
+        if (obj.layer != layerToChase) return;
+
+        // get distance
+        float distance = Mathf.Abs(gameObject.transform.position.x - obj.transform.position.x);
+        if(distance < minDistance){
+            minDistance = distance;
+            objectToChase = obj;
+        }
 
         isTargetInRange = isIn;
         // print("obj in range: " + obj.name);

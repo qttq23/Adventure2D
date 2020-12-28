@@ -18,23 +18,28 @@ public class MyCharacterController : MonoBehaviour
     public WeaponCollider weaponCollider;
     public UltiController ultiController;
     public bool isUsedByAutoMove = false;
+    public bool isUsedByRemote = true;
     public List<string> tagsIgnoredDamage = new List<string>();
 
     // properties
     public Rigidbody2D Rigid { get { return rigid; } }
     public Vector2 Movement { get { return movement; } }
 
+    public int Id;
+    public delegate void OnMove(int id, int moveType, Vector2 position = new Vector2());
+    public event OnMove EventMove;
+
     // internal data
     Vector2 movement;
     Rigidbody2D rigid;
     Animator animator;
-    enum MoveType
+    public enum MoveType
     {
         idle = 0,
         walk = 1,
         jump = 2,
         attack = 3,
-        util = 4,
+        ulti = 4,
         die = 5,
         hurt = 6
     }
@@ -81,7 +86,7 @@ public class MyCharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isUsedByAutoMove)
+        if (!isUsedByAutoMove && !isUsedByRemote)
         {
             getUserInput();
         }
@@ -136,7 +141,7 @@ public class MyCharacterController : MonoBehaviour
         }
         else if (isUlti)
         {
-            animator.SetInteger("moveType", (int)MoveType.util);
+            animator.SetInteger("moveType", (int)MoveType.ulti);
 
         }
         // else if (isAttack)
@@ -293,7 +298,10 @@ public class MyCharacterController : MonoBehaviour
     // api for AutoMoveAttack
     public void apiGoRight(bool isRight = true)
     {
-        print("MyCharacterController.cs: " + gameObject.name + " , " + isRight);
+        print("MyCharacterController.cs: api go right");
+        EventMove?.Invoke(this.Id, (int)MoveType.walk * (isRight ? 1 : -1));
+
+
         if (isRight)
         {
             movement.x = 1;
@@ -302,10 +310,16 @@ public class MyCharacterController : MonoBehaviour
         {
             movement.x = -1;
         }
+
+        // print("MyCharacterController.cs: " + gameObject.name + " , " + isRight);
+
     }
 
     public void apiIdle()
     {
+        EventMove?.Invoke(this.Id, (int)MoveType.idle, 
+            new Vector2(gameObject.transform.position.x, gameObject.transform.position.y));
+
         movement.x = 0;
         // updateVelocity();
         // SetMovement("x", 0);
@@ -313,6 +327,8 @@ public class MyCharacterController : MonoBehaviour
 
     public void apiJump()
     {
+        EventMove?.Invoke(this.Id, (int)MoveType.jump);
+
         // show animation
         countJump++;
         countJumpTemp++;
@@ -323,6 +339,8 @@ public class MyCharacterController : MonoBehaviour
 
     public void apiAttack()
     {
+        EventMove?.Invoke(this.Id, (int)MoveType.attack);
+
         print("MyCharacterController.cs: herer attack: " + isAttack);
         if (isAttack) return;
 
@@ -335,6 +353,8 @@ public class MyCharacterController : MonoBehaviour
 
     public void apiUlti()
     {
+        EventMove?.Invoke(this.Id, (int)MoveType.ulti);
+
         if (isUlti || !ultiController.CanUlti()) return;
 
         // flag to show animation
@@ -348,6 +368,15 @@ public class MyCharacterController : MonoBehaviour
 
     public void apiDie()
     {
+
+        var hp = gameObject.GetComponent<HP>();
+        if (hp.currentHealth > 0)
+        {
+            hp.ChangeHealth(-100);
+            return;
+        }
+
+        EventMove?.Invoke(this.Id, (int)MoveType.die);
 
         // show anim
         isDie = true;
@@ -474,6 +503,41 @@ public class MyCharacterController : MonoBehaviour
     {
         var scale = transform.localScale;
         return scale.x > 0;
+
+    }
+
+    public void ApplyMove(int moveType, Vector3 position)
+    {
+
+        if (moveType == (int)MoveType.idle)
+        {
+            apiIdle();
+            gameObject.transform.position = position;
+        }
+        else if (moveType == (int)MoveType.walk)
+        {
+            apiGoRight();
+        }
+        else if (moveType == (int)MoveType.walk * -1)
+        {
+            apiGoRight(false);
+        }
+        else if (moveType == (int)MoveType.jump)
+        {
+            apiJump();
+        }
+        else if (moveType == (int)MoveType.attack)
+        {
+            apiAttack();
+        }
+        else if (moveType == (int)MoveType.ulti)
+        {
+            apiUlti();
+        }
+        else if (moveType == (int)MoveType.die)
+        {
+            apiDie();
+        }
 
     }
 

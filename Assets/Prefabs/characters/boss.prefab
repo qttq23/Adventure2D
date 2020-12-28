@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4471796092993916864}
   - component: {fileID: 4471796092993916866}
   - component: {fileID: 4471796092993916865}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4471796093086813119}
   - component: {fileID: 4471796093086813118}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: autoMoveAttack
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -121,6 +121,7 @@ MonoBehaviour:
   ultiRange: {fileID: 4471796093378887204}
   triggerCollider: {fileID: 0}
   timeToMakeDecision: 2
+  layerToChase: 8
   isDoingUlti: 0
 --- !u!1 &4471796093151306703
 GameObject:
@@ -133,7 +134,7 @@ GameObject:
   - component: {fileID: 4471796093151306702}
   - component: {fileID: 4471796093151306700}
   - component: {fileID: 4471796093151306701}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: WeaponRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +204,7 @@ GameObject:
   - component: {fileID: 4471796093378887205}
   - component: {fileID: 4471796093378887203}
   - component: {fileID: 4471796093378887204}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: UltiRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4471796093588746897}
   - component: {fileID: 4471796093588746898}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: ulti
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +326,7 @@ GameObject:
   - component: {fileID: 4471796094347171232}
   - component: {fileID: 4471796092669825187}
   - component: {fileID: 4471796094347171234}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: boss
   m_TagString: enemy
   m_Icon: {fileID: 0}
@@ -505,7 +506,9 @@ MonoBehaviour:
   weaponCollider: {fileID: 4471796094578469839}
   ultiController: {fileID: 4471796093588746898}
   isUsedByAutoMove: 1
+  isUsedByRemote: 1
   tagsIgnoredDamage: []
+  Id: 1
 --- !u!1 &4471796094578469840
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +520,7 @@ GameObject:
   - component: {fileID: 4471796094578469837}
   - component: {fileID: 4471796094578469839}
   - component: {fileID: 4471796094578469838}
-  m_Layer: 8
+  m_Layer: 11
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
