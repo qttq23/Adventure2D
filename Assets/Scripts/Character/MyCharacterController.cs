@@ -21,6 +21,12 @@ public class MyCharacterController : MonoBehaviour
     public bool isUsedByRemote = true;
     public List<string> tagsIgnoredDamage = new List<string>();
 
+    public AudioSource audioSourceFoot;
+    public AudioSource audioSourceQuick;
+    public AudioClip audioAttack;
+    public AudioClip audioHurt;
+    public AudioClip audioJump;
+
     // properties
     public Rigidbody2D Rigid { get { return rigid; } }
     public Vector2 Movement { get { return movement; } }
@@ -159,17 +165,28 @@ public class MyCharacterController : MonoBehaviour
                 turnRight(false);
             }
 
+
         }
 
         else if (movement.x > 0)
         {
             turnRight();
             animator.SetInteger("moveType", (int)MoveType.walk);
+
+            if (!audioSourceFoot.isPlaying)
+            {
+                audioSourceFoot.Play();
+            }
         }
         else if (movement.x < 0)
         {
             turnRight(false);
             animator.SetInteger("moveType", (int)MoveType.walk);
+
+            if (!audioSourceFoot.isPlaying)
+            {
+                audioSourceFoot.Play();
+            }
         }
         else if (countJump > 0)
         {
@@ -178,7 +195,16 @@ public class MyCharacterController : MonoBehaviour
         else
         {
             animator.SetInteger("moveType", (int)MoveType.idle);
+
+            audioSourceFoot.Stop();
         }
+
+
+        if (countJump > 0)
+        {
+            audioSourceFoot.Stop();
+        }
+
     }
 
 
@@ -317,7 +343,7 @@ public class MyCharacterController : MonoBehaviour
 
     public void apiIdle()
     {
-        EventMove?.Invoke(this.Id, (int)MoveType.idle, 
+        EventMove?.Invoke(this.Id, (int)MoveType.idle,
             new Vector2(gameObject.transform.position.x, gameObject.transform.position.y));
 
         movement.x = 0;
@@ -335,6 +361,8 @@ public class MyCharacterController : MonoBehaviour
 
         // logic
         StartCoroutine(jump(timeJump));
+
+        audioSourceQuick.PlayOneShot(audioJump);
     }
 
     public void apiAttack()
@@ -349,6 +377,9 @@ public class MyCharacterController : MonoBehaviour
         StartCoroutine(attack(timeAttackDelay));
 
         // handle attack collide and attack done in handler
+
+        audioSourceQuick.PlayOneShot(audioAttack);
+
     }
 
     public void apiUlti()
@@ -396,6 +427,7 @@ public class MyCharacterController : MonoBehaviour
 
         // wait some seconds then recover
         // StartCoroutine(waitThenRecover());
+        audioSourceQuick.PlayOneShot(audioHurt);
     }
 
 

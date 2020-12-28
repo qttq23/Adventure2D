@@ -6,6 +6,10 @@ public class UltiDemon : UltiController
 {
     public float fastSpeed = 35f;
 
+    public AudioSource audioSource;
+
+    bool isDonex = true;
+
     public override void Fire()
     {
 
@@ -36,6 +40,11 @@ public class UltiDemon : UltiController
         // parent.weaponCollider.Fire(true);
 
         // move fast forward
+
+        isDonex = false;
+        StartCoroutine(playSound());
+        
+
         parent.Rigid.velocity = direction * fastSpeed;
         yield return new WaitForSeconds(utliDurationTime / 2);
 
@@ -48,8 +57,12 @@ public class UltiDemon : UltiController
         // stop weapon
         // parent.weaponCollider.Fire(false);
 
+        isDonex = true;
+
         // signal parent
         this.handleUltiDone();
+
+
 
     }
 
@@ -65,5 +78,17 @@ public class UltiDemon : UltiController
     // wait backward...
     // reset gravity and trigger
     // }
+
+
+    IEnumerator playSound(){
+
+        while(!isDonex){
+            audioSource.Play();
+
+            yield return new WaitForSeconds(0.25f);
+
+            audioSource.Stop();
+        }
+    }
 
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ea0df4d7ac41641a2045523b035e98, type: 3}
   m_Name: MyConfig
   m_EditorClassIdentifier: 
-  isPlayOnline: 1
+  isPlayOnline: 0
   roomName: room1
-  isHost: 0
+  isHost: 1

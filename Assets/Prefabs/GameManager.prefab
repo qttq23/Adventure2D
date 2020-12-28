@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6691689143075260174}
-  - component: {fileID: 6691689143075260175}
+  - component: {fileID: 1065798848}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6691689143075260175
+--- !u!114 &1065798848
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,3 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded922ed1052f92498626afb5f87acbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasPopup: {fileID: 0}
+  canvasGameEnd: {fileID: 0}
+  canvasGameWin: {fileID: 0}
