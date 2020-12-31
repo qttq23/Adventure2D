@@ -13,6 +13,12 @@ public class MyCharacterController : MonoBehaviour
     public float timeBlockWhenDamaged = 0.5f;
     public float timeShowDealth = 2f;
 
+    public bool isTurningRight = true;
+    public int currentAvailableAttack = 3;
+    public int numMaxContinueAttack = 3;
+    public int numAttackRecoverEachSec = 1;
+    public float timeToRecoverOneAttack = 2.5f;
+
     // stub
     public FootCollider footCollider;
     public WeaponCollider weaponCollider;
@@ -20,6 +26,10 @@ public class MyCharacterController : MonoBehaviour
     public bool isUsedByAutoMove = false;
     public bool isUsedByRemote = true;
     public List<string> tagsIgnoredDamage = new List<string>();
+
+    public GameObject boomPrefab;
+    [HideInInspector]
+    public Vector3 deltaBoomScale = new Vector3();
 
     public AudioSource audioSourceFoot;
     public AudioSource audioSourceQuick;
@@ -34,6 +44,10 @@ public class MyCharacterController : MonoBehaviour
     public int Id;
     public delegate void OnMove(int id, int moveType, Vector2 position = new Vector2());
     public event OnMove EventMove;
+    public delegate void OnUltiAtRightPoint();
+    public event OnUltiAtRightPoint EventUltiAtRightPoint;
+    public delegate void OnUltiDone();
+    public event OnUltiDone EventUltiDone;
 
     // internal data
     Vector2 movement;
@@ -87,6 +101,9 @@ public class MyCharacterController : MonoBehaviour
             lastHealth = hp.currentHealth;
             hp.EventHealthChanged += handleHealthChanged;
         }
+
+        // start recover for attack
+        StartCoroutine(waitThenRecoverAttack(timeToRecoverOneAttack));
     }
 
     // Update is called once per frame
@@ -254,19 +271,11 @@ public class MyCharacterController : MonoBehaviour
     {
         // delay time
         yield return new WaitForSeconds(delaySeconds);
-        // print("MyCharacterController.cs: herer attack");
+
 
         isAnimationAttack = true;
 
-        // some padding time for weapon to collide in view
-        // yield return new WaitForSeconds(seconds * 4 / 5);
 
-        // real damage
-        // weaponCollider.Fire(true);
-        // yield return new WaitForSeconds(seconds * 1 / 5);
-
-        // done, turn off attack
-        // weaponCollider.Fire(false);
     }
 
     IEnumerator ulti(float seconds)
@@ -290,9 +299,29 @@ public class MyCharacterController : MonoBehaviour
 
     void turnRight(bool isRight = true)
     {
-        var scale = transform.localScale;
-        scale.x = Mathf.Abs(scale.x) * (isRight ? 1 : -1);
-        transform.localScale = scale;
+
+        if (isRight == isTurningRight)
+        {
+            return;
+        }
+        else if ((isRight && !isTurningRight) ||
+            (!isRight && isTurningRight)
+         )
+        {
+            // flip scale.x
+            var scale = gameObject.transform.localScale;
+            scale.x = -1 * scale.x;
+            gameObject.transform.localScale = scale;
+
+            // re-assign
+            isTurningRight = !isTurningRight;
+        }
+
+
+        // // old version
+        // var scale = transform.localScale;
+        // scale.x = Mathf.Abs(scale.x) * (isRight ? 1 : -1);
+        // transform.localScale = scale;
     }
 
     IEnumerator waitThenDestroy(float seconds)
@@ -303,28 +332,28 @@ public class MyCharacterController : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // IEnumerator waitThenRecover()
-    // {
-    //     while (isAnimationHurt)
-    //     {
-    //         yield return new WaitForSeconds(0.1f);
-    //     }
+    IEnumerator waitThenRecoverAttack(float seconds)
+    {
 
-    //     hurtCount--;
+        while (true)
+        {
+            yield return new WaitForSeconds(seconds);
 
-    //     if (hurtCount > 0)
-    //     {
-    //         // if still hurt, so animation again
-    //         isAnimationHurt = true;
-    //     }
-    // }
+            currentAvailableAttack = Mathf.Clamp(
+                currentAvailableAttack + numAttackRecoverEachSec,
+                0,
+                numMaxContinueAttack
+                );
+
+        }
+    }
 
 
 
     // api for AutoMoveAttack
     public void apiGoRight(bool isRight = true)
     {
-        print("MyCharacterController.cs: api go right");
+        // print("MyCharacterController.cs: api go right");
         EventMove?.Invoke(this.Id, (int)MoveType.walk * (isRight ? 1 : -1));
 
 
@@ -370,10 +399,11 @@ public class MyCharacterController : MonoBehaviour
         EventMove?.Invoke(this.Id, (int)MoveType.attack);
 
         print("MyCharacterController.cs: herer attack: " + isAttack);
-        if (isAttack) return;
+        if (isAttack || currentAvailableAttack <= 0) return;
 
         // wait delay then start attack
         isAttack = true;
+        currentAvailableAttack--;
         StartCoroutine(attack(timeAttackDelay));
 
         // handle attack collide and attack done in handler
@@ -387,6 +417,13 @@ public class MyCharacterController : MonoBehaviour
         EventMove?.Invoke(this.Id, (int)MoveType.ulti);
 
         if (isUlti || !ultiController.CanUlti()) return;
+
+        // if allow move, so no need to show animation and block movement
+        if (ultiController.canMoveWhenUlti)
+        {
+            ultiController.Fire();
+            return;
+        }
 
         // flag to show animation
         isUlti = true;
@@ -513,29 +550,42 @@ public class MyCharacterController : MonoBehaviour
         otherHp.ChangeHealth(-1 * ultiController.ultiDamage);
     }
 
+    public void HandleAttackAtRightPoint()
+    {
+
+        print("MyCharacterController.cs: attack right point");
+        // throw a boom + scale boom
+        // GameObject boom = Instantiate(boomPrefab, transform.position, transform.rotation);
+        // boom.EventObjectInRange += handleObjectInBoomRange;
+        // StartCoroutine(waitBallonDestroy(boom.GetComponent<SelfDestroy>().afterSeconds));
+
+    }
+
+
+    public void HandleUltiAtRightPoint()
+    {
+        print("MyCharacterController.cs: attack ulti point");
+        EventUltiAtRightPoint?.Invoke();
+
+    }
+
+
+    public void HandleUltiDone()
+    {
+        print("MyCharacterController.cs: attack ulti done");
+        EventUltiDone?.Invoke();
+
+    }
 
 
 
-    // api utilities
-    // public void SetMovement(string name, float value)
-    // {
-
-    //     // show animation
-    //     if (name == "x")
-    //     {
-    //         movement.x = value;
-    //     }
-    //     else if (name == "y")
-    //     {
-    //         movement.y = value;
-    //     }
-    // }
 
     public bool IsTurnRight()
     {
-        var scale = transform.localScale;
-        return scale.x > 0;
+        // var scale = transform.localScale;
+        // return scale.x > 0;
 
+        return isTurningRight;
     }
 
     public void ApplyMove(int moveType, Vector3 position)

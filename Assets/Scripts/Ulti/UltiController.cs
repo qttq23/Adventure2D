@@ -11,6 +11,7 @@ public class UltiController : MonoBehaviour
     public float timeToAvailable = 1f;
     public float utliDurationTime = 2f;
     public float ultiDamage = 10f;
+    public bool canMoveWhenUlti = false;
 
     // used by parent such CharcterController to handle events
     public delegate void OnUltiDone();
@@ -54,26 +55,7 @@ public class UltiController : MonoBehaviour
         canUlti = true;
     }
 
-    // void FixedUpdate()
-    // {
-    //     if (!canUlti)
-    //     {
 
-    //         setTimePass(timePass + Time.fixedDeltaTime);
-
-    //         if (timePass >= timeToAvailable)
-    //         {
-    //             canUlti = true;
-    //         }
-    //     }
-    // }
-
-    // public void setTimePass(float seconds)
-    // {
-    //     timePass = Mathf.Clamp(seconds, 0, timeToAvailable);
-    //     EventPercentUltiChanged?.Invoke(PercentUlti);
-
-    // }
 
     public bool CanUlti()
     {

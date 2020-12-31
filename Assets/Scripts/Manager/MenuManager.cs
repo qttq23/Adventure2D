@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     public void handlePlay()
     {
         SceneManager.LoadScene("Map1version2", LoadSceneMode.Single);
+        config.isPlayOnline = false;
     }
 
     public void handleCreateRoom()

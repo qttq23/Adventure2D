@@ -15,3 +15,4 @@ MonoBehaviour:
   isPlayOnline: 0
   roomName: room1
   isHost: 1
+  isAudioActionEnabled: 1
