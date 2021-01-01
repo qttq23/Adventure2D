@@ -29,7 +29,7 @@ public class UltiController : MonoBehaviour
     protected bool canUlti;
     protected float timePass;
 
-    void Start()
+    protected void Start()
     {
         canUlti = false;
         timePass = 0;
@@ -53,6 +53,7 @@ public class UltiController : MonoBehaviour
         }
 
         canUlti = true;
+
     }
 
 
@@ -77,6 +78,8 @@ public class UltiController : MonoBehaviour
 
         // signal parent
         // parent.handleUltiDone();
+        print("UltiController.cs: handleUltiDone");
+
         EventUltiDone?.Invoke();
     }
 

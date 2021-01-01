@@ -5,14 +5,17 @@ using UnityEngine;
 public class UltiTroll : UltiController
 {
 
-    public Vector3 deltaBoomScale = new Vector3(0.04f, 0.04f, 0.04f);
+    public TrollHelper helper;
+
+    // public Vector3 deltaBoomScale = new Vector3(0.6f, 0.6f, 0.6f);
+    public float nScaleTimes = 2f;
     public float deltaAttack = 5f;
 
-    void Start()
+    protected void Start()
     {
-
-        parent.EventUltiAtRightPoint += HandleUltiAtRightPoint;
-        parent.EventUltiDone += HandleUltiDone;
+        base.Start();
+        helper.EventUltiAtRightPoint += HandleUltiAtRightPoint;
+        helper.EventUltiDone += HandleUltiDone;
     }
 
     public override void Fire()
@@ -21,10 +24,11 @@ public class UltiTroll : UltiController
         if (!this.canUlti) return;
 
         // increase attack + boom scale
-        var hp = parent.gameObject.GetComponent<HP>();
+        var hp = helper.gameObject.GetComponent<HP>();
         hp.attack += deltaAttack;
 
-        parent.deltaBoomScale = this.deltaBoomScale;
+        // helper.deltaBoomScale = this.deltaBoomScale;
+        helper.nScaleTimes = nScaleTimes;
 
     }
 
@@ -38,11 +42,13 @@ public class UltiTroll : UltiController
     public void HandleUltiDone()
     {
         // re-set attack + boom scale
-        var hp = parent.gameObject.GetComponent<HP>();
+        var hp = helper.gameObject.GetComponent<HP>();
         hp.attack -= deltaAttack;
-        parent.deltaBoomScale = new Vector3();
+        // helper.deltaBoomScale = new Vector3();
+        helper.nScaleTimes = 1f;
 
         // signal parent
+        print("UltiTroll.cs: handleUltiDone");
         this.handleUltiDone();
     }
 

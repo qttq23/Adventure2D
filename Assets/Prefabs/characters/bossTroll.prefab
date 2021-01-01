@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 426029160150784408}
-  - component: {fileID: 426029160150784411}
-  - component: {fileID: 4316292982320955677}
+  - component: {fileID: 4471796093118664718}
   m_Layer: 11
   m_Name: ulti
   m_TagString: Untagged
@@ -32,7 +31,7 @@ Transform:
   m_Father: {fileID: 426029160899690324}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &426029160150784411
+--- !u!114 &4471796093118664718
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,111 +40,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 426029160150784410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76382a0facd4e3244a67d38b41321d5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 402f2db6a6c4b54478848545bfcd32ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
-  timeToAvailable: 5
+  timeToAvailable: 15
   utliDurationTime: 2
-  ultiDamage: 0
-  fastSpeed: 35
-  audioSource: {fileID: 4316292982320955677}
---- !u!82 &4316292982320955677
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 426029160150784410}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9633a2c52399fbd4c9959f363e079a6b, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  ultiDamage: 10
+  canMoveWhenUlti: 0
+  helper: {fileID: 4471796092669638462}
+  nScaleTimes: 2
+  deltaAttack: 5
 --- !u!1 &426029160603631833
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,13 +120,12 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.4811213, y: -0.21113062}
-      - {x: 0.2566187, y: -0.1528553}
-      - {x: 0.32004145, y: -0.3371951}
-      - {x: -0.2865932, y: -0.39803883}
-      - {x: 0.097962484, y: -0.47183347}
-      - {x: 0.60846454, y: -0.43002164}
-      - {x: 0.6337415, y: -0.36653653}
+    - - {x: 1.4650911, y: 1.9645057}
+      - {x: 0, y: 1}
+      - {x: -0.95105654, y: 0.30901697}
+      - {x: -0.5877852, y: -0.80901706}
+      - {x: 2.25766, y: -0.41224}
+      - {x: 2.380755, y: 1.0501723}
 --- !u!1 &426029160899690154
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,6 +141,7 @@ GameObject:
   - component: {fileID: 426029160899690153}
   - component: {fileID: 426029161370909610}
   - component: {fileID: 426029160899690155}
+  - component: {fileID: 4471796092669638462}
   m_Layer: 11
   m_Name: bossTroll
   m_TagString: enemy
@@ -251,7 +156,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426029160899690154}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.63, y: 0.17, z: 0}
   m_LocalScale: {x: 0.25778347, y: 0.25081638, z: 0.27868485}
   m_Children:
@@ -347,7 +252,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.33356255, y: -0.17111942}
+  m_Offset: {x: 0.47095513, y: -1.0692658}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -358,7 +263,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.33758175, y: 0.7881015}
+  m_Size: {x: 2.39048, y: 4.979455}
   m_EdgeRadius: 0
 --- !u!95 &426029160899690153
 Animator:
@@ -370,7 +275,7 @@ Animator:
   m_GameObject: {fileID: 426029160899690154}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 515c4164dd4d36d4cbbfd1f83c677174, type: 2}
+  m_Controller: {fileID: 9100000, guid: 33f8469c12252d54c8887d007be6cd3d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -415,11 +320,15 @@ MonoBehaviour:
   timeBlockWhenDamaged: 0.5
   timeShowDealth: 2
   isTurningRight: 1
+  currentAvailableAttack: 3
+  numMaxContinueAttack: 3
+  numAttackRecoverEachSec: 1
+  timeToRecoverOneAttack: 2.5
   footCollider: {fileID: 426029161145509067}
   weaponCollider: {fileID: 426029160603631814}
-  ultiController: {fileID: 426029160150784411}
+  ultiController: {fileID: 4471796093118664718}
   isUsedByAutoMove: 1
-  isUsedByRemote: 1
+  isUsedByRemote: 0
   tagsIgnoredDamage: []
   audioSourceFoot: {fileID: 58203346483903020}
   audioSourceQuick: {fileID: 58203347460891599}
@@ -427,6 +336,21 @@ MonoBehaviour:
   audioHurt: {fileID: 8300000, guid: e8a6a388373a465458fceeca4eb33efd, type: 3}
   audioJump: {fileID: 0}
   Id: 1
+--- !u!114 &4471796092669638462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426029160899690154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b08e91e2f8f2c4ba054d38f3b8a2c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boomPrefab: {fileID: 3792787716833873785, guid: 284f577df113f5542a0847cbd2ec85a1,
+    type: 3}
+  nScaleTimes: 1
 --- !u!1 &426029161145509066
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,8 +377,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 426029161145509066}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.37, y: -0.607, z: 0}
-  m_LocalScale: {x: 1.15, y: 1, z: 1}
+  m_LocalPosition: {x: -0.06, y: -3.83, z: 0}
+  m_LocalScale: {x: 4.54572, y: 3.9528, z: 3.9528}
   m_Children: []
   m_Father: {fileID: 426029160899690324}
   m_RootOrder: 0
@@ -542,7 +466,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3558265, y: -0.05077827}
+  m_Offset: {x: 0.64602613, y: -0.9748447}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -553,7 +477,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.897767, y: 0.89844346}
+  m_Size: {x: 21.33459, y: 5.175552}
   m_EdgeRadius: 0
 --- !u!114 &426029161534657837
 MonoBehaviour:
@@ -613,11 +537,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterController: {fileID: 426029160899690155}
-  objectToChase: {fileID: 0}
   weaponRange: {fileID: 426029161860794564}
   ultiRange: {fileID: 426029161534657837}
   triggerCollider: {fileID: 0}
   timeToMakeDecision: 2
+  ultiController: {fileID: 4471796093118664718}
+  objectToChase: {fileID: 0}
   layerToChase: 8
   isDoingUlti: 0
 --- !u!1 &426029161860794566
@@ -665,7 +590,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.35682046, y: -0.090272784}
+  m_Offset: {x: 0.22831368, y: -0.93139505}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -676,7 +601,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.4382632, y: 0.97743154}
+  m_Size: {x: 14.300804, y: 5.282838}
   m_EdgeRadius: 0
 --- !u!114 &426029161860794564
 MonoBehaviour:

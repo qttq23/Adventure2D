@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,9 +28,6 @@ public class MyCharacterController : MonoBehaviour
     public bool isUsedByRemote = true;
     public List<string> tagsIgnoredDamage = new List<string>();
 
-    public GameObject boomPrefab;
-    [HideInInspector]
-    public Vector3 deltaBoomScale = new Vector3();
 
     public AudioSource audioSourceFoot;
     public AudioSource audioSourceQuick;
@@ -44,10 +42,7 @@ public class MyCharacterController : MonoBehaviour
     public int Id;
     public delegate void OnMove(int id, int moveType, Vector2 position = new Vector2());
     public event OnMove EventMove;
-    public delegate void OnUltiAtRightPoint();
-    public event OnUltiAtRightPoint EventUltiAtRightPoint;
-    public delegate void OnUltiDone();
-    public event OnUltiDone EventUltiDone;
+
 
     // internal data
     Vector2 movement;
@@ -316,12 +311,6 @@ public class MyCharacterController : MonoBehaviour
             // re-assign
             isTurningRight = !isTurningRight;
         }
-
-
-        // // old version
-        // var scale = transform.localScale;
-        // scale.x = Mathf.Abs(scale.x) * (isRight ? 1 : -1);
-        // transform.localScale = scale;
     }
 
     IEnumerator waitThenDestroy(float seconds)
@@ -431,6 +420,7 @@ public class MyCharacterController : MonoBehaviour
         // logic
         StartCoroutine(ulti(ultiController.utliDurationTime));
         // ultiController.Fire();
+
 
     }
 
@@ -550,32 +540,10 @@ public class MyCharacterController : MonoBehaviour
         otherHp.ChangeHealth(-1 * ultiController.ultiDamage);
     }
 
-    public void HandleAttackAtRightPoint()
-    {
-
-        print("MyCharacterController.cs: attack right point");
-        // throw a boom + scale boom
-        // GameObject boom = Instantiate(boomPrefab, transform.position, transform.rotation);
-        // boom.EventObjectInRange += handleObjectInBoomRange;
-        // StartCoroutine(waitBallonDestroy(boom.GetComponent<SelfDestroy>().afterSeconds));
-
-    }
 
 
-    public void HandleUltiAtRightPoint()
-    {
-        print("MyCharacterController.cs: attack ulti point");
-        EventUltiAtRightPoint?.Invoke();
-
-    }
 
 
-    public void HandleUltiDone()
-    {
-        print("MyCharacterController.cs: attack ulti done");
-        EventUltiDone?.Invoke();
-
-    }
 
 
 

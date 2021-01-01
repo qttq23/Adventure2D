@@ -8,6 +8,7 @@ public class UltiFighter : UltiController
     public Vector3 deltaScale = new Vector3(0.04f, 0.04f, 0.04f);
     public float deltaAttack = 5f;
     public float deltaDefense = 5f;
+    public ParticleSystem strongEffect;
 
     public override void Fire()
     {
@@ -32,6 +33,12 @@ public class UltiFighter : UltiController
         // prepare
 
 
+        // effect
+        strongEffect.Play();
+        // set color of sprite
+        var renderer = parent.gameObject.GetComponent<SpriteRenderer>();
+        renderer.color = new Color(0, 255, 5, 255); // green
+
         // increase scale
         var newScale = new Vector3( 
             (Mathf.Abs(scale.x) + deltaScale.x) * (scale.x >= 0 ? 1: -1),
@@ -43,13 +50,16 @@ public class UltiFighter : UltiController
         hp.attack += deltaAttack;
         hp.defense += deltaDefense;
 
-        // effect?????
-        // ...............
 
 
         // wait some seconds
         yield return new WaitForSeconds(utliDurationTime);
 
+
+        // effect
+        strongEffect.Stop();
+        // set color of sprite
+        renderer.color = new Color(255, 255, 255, 255); // white
 
         // re-set to origin value
         scale = parent.gameObject.transform.localScale;

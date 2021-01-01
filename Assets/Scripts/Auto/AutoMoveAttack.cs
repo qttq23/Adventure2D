@@ -6,12 +6,13 @@ public class AutoMoveAttack : MonoBehaviour
 {
     // public Move move;
     public MyCharacterController characterController;
-    public GameObject objectToChase;
     public WeaponRange weaponRange;
     public UltiRange ultiRange;
     public TriggerColliderController triggerCollider;
     public float timeToMakeDecision = 2f;
+    public UltiController ultiController;
 
+    public GameObject objectToChase;
     public int layerToChase;
     float minDistance = 9999;
 
@@ -45,13 +46,17 @@ public class AutoMoveAttack : MonoBehaviour
             triggerCollider.EventObjectInOut += handleObjectInTriggerColliderRange;
         }
 
+        if(ultiController){
+            ultiController.EventUltiDone += handleUltiDone;
+        }
+
         StartCoroutine(makeDecision(timeToMakeDecision));
     }
 
     IEnumerator checkCanStartAfter(float seconds)
     {
 
-        while (characterController.isUsedByRemote)
+        while (characterController.isUsedByRemote || !characterController.isUsedByAutoMove)
         {
             yield return new WaitForSeconds(seconds);
         }
@@ -99,28 +104,34 @@ public class AutoMoveAttack : MonoBehaviour
 
     public void handleObjectInUltiRange(GameObject obj)
     {
-        // if (!GameObject.ReferenceEquals(obj, objectToChase)) return;
         if (obj.layer != layerToChase) return;
         if (!isTargetInRange) return;
         if (!characterController.ultiController.CanUlti()) return;
 
-        // print("fire ulti");
         isDoingUlti = true;
         ultiRange.SetCheck(false);
 
         characterController.apiUlti();
-        StartCoroutine(waitUltiDone(characterController.ultiController.utliDurationTime));
+        // StartCoroutine(waitUltiDone(characterController.ultiController.utliDurationTime));
 
     }
 
-    IEnumerator waitUltiDone(float seconds)
-    {
+    // IEnumerator waitUltiDone(float seconds)
+    // {
 
-        yield return new WaitForSeconds(seconds);
-        // print("ulti done");
+    //     yield return new WaitForSeconds(seconds);
+    //     // print("ulti done");
+    //     isDoingUlti = false;
+    //     ultiRange.SetCheck(true);
+    // }
+
+    void handleUltiDone(){
+        print("AutoMoveAttack.cs: ulti done");
         isDoingUlti = false;
         ultiRange.SetCheck(true);
     }
+
+
 
     void handleObjectInTriggerColliderRange(GameObject obj, bool isIn)
     {
