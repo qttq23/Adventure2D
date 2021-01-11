@@ -32,6 +32,7 @@ public class MyGameManager : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(9, 8, true);
         Physics2D.IgnoreLayerCollision(9, 11, true);
+        Physics2D.IgnoreLayerCollision(12, 11, true);
 
 
         // show story panel

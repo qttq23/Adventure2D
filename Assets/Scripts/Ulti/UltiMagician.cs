@@ -6,7 +6,7 @@ public class UltiMagician : UltiController
 {
 
     public MagicianHelper helper;
-    public GameObject lazerPrefab;
+    public GameObject magicianEffectPrefab;
 
 
     protected void Start()
@@ -20,25 +20,26 @@ public class UltiMagician : UltiController
     {
 
         if (!this.canUlti) return;
-
-
-
     }
 
 
 
     public void HandleUltiAtRightPoint()
     {
-        // throw a lazer
-        GameObject lazer = Instantiate(lazerPrefab,
-            transform.position + new Vector3(0.25f * (parent.isTurningRight ? 1 : -1), 0, 0),
-            transform.rotation);
+        var playerList = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject player in playerList)
+        {
+            var magicianEffect = Instantiate(
+                magicianEffectPrefab, 
+                player.transform.position, 
+                player.transform.rotation
+                );
+            var controller = magicianEffect.GetComponent<MagicianEffectController>();
+            controller.objectToHeal = player;
+            controller.hpHealEachTime = 0.05f;
+            controller.duration = 5f;
 
-        var lazerController = lazer.GetComponent<LazerController>();
-        lazerController.direction = new Vector2(1 * (parent.isTurningRight ? 1 : -1), 0);
-        lazerController.duration = 5f;
-        lazerController.damage = this.ultiDamage;
-        lazerController.RealStart();
+        }
     }
 
 
