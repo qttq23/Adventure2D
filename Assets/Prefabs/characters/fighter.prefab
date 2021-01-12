@@ -476,7 +476,7 @@ MonoBehaviour:
   weaponCollider: {fileID: 5277959808664940092}
   ultiController: {fileID: 3666371072665548800}
   isUsedByAutoMove: 0
-  isUsedByRemote: 0
+  isUsedByRemote: 1
   tagsIgnoredDamage:
   - Player
   audioSourceFoot: {fileID: 8925718209611590484}

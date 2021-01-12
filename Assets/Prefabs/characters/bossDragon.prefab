@@ -260,8 +260,7 @@ MonoBehaviour:
   ultiRange: {fileID: 5342411566401851711}
   triggerCollider: {fileID: 0}
   timeToMakeDecision: 2
-  ultiController: {fileID: 8197257873600304156, guid: de3c8728ea06d834fa032bc5c9d398dd,
-    type: 3}
+  ultiController: {fileID: 426029160523239237}
   objectToChase: {fileID: 0}
   layerToChase: 8
   isDoingUlti: 0
@@ -564,8 +563,8 @@ MonoBehaviour:
   footCollider: {fileID: 5342411565681352921}
   weaponCollider: {fileID: 5342411567350006996}
   ultiController: {fileID: 426029160523239237}
-  isUsedByAutoMove: 0
-  isUsedByRemote: 0
+  isUsedByAutoMove: 1
+  isUsedByRemote: 1
   tagsIgnoredDamage: []
   audioSourceFoot: {fileID: 5693473393429478974}
   audioSourceQuick: {fileID: 5693473392402638813}
