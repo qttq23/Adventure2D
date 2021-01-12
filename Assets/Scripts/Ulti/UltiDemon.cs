@@ -6,6 +6,10 @@ public class UltiDemon : UltiController
 {
     public float fastSpeed = 35f;
 
+    public AudioSource audioSource;
+
+    bool isDonex = true;
+
     public override void Fire()
     {
 
@@ -22,7 +26,7 @@ public class UltiDemon : UltiController
 
         // get orign for later use
         var originSpeed = parent.speed;
-        var originMovement = parent.movement;
+        var originMovement = parent.Movement;
 
         // prepare
         var direction = new Vector2(1, 0);
@@ -31,32 +35,42 @@ public class UltiDemon : UltiController
             direction *= -1;
         }
 
+        /// -----------> fix this: record Ulti animation, trigger script when collide
         // fire weapon
-        parent.weapon.Fire(true);
+        // parent.weaponCollider.Fire(true);
 
         // move fast forward
-        parent.rigid.velocity = direction * fastSpeed;
+
+        isDonex = false;
+        StartCoroutine(playSound());
+        
+
+        parent.Rigid.velocity = direction * fastSpeed;
         yield return new WaitForSeconds(utliDurationTime / 2);
 
         // move fast backward
-        parent.rigid.velocity = direction * -1 * fastSpeed;
+        parent.Rigid.velocity = direction * -1 * fastSpeed;
         yield return new WaitForSeconds(utliDurationTime / 2);
 
         // re-set to origin value
-        parent.rigid.velocity = originMovement * originSpeed;
+        parent.Rigid.velocity = originMovement * originSpeed;
         // stop weapon
-        parent.weapon.Fire(false);
+        // parent.weaponCollider.Fire(false);
+
+        isDonex = true;
 
         // signal parent
         this.handleUltiDone();
+
+
 
     }
 
     // skill ver2: go through
     // {
     // no gravity, and only trigger
-    // 	 var originGravity = parent.rigid.gravityScale;
-    // 	 parent.rigid.gravityScale = 0;
+    // 	 var originGravity = parent.Rigid.gravityScale;
+    // 	 parent.Rigid.gravityScale = 0;
     // 	 parent.gameObject.GetComponent<Collider2D>().isTrigger = true;
     // parent.weapon.Fire(true);
     // wait forward...
@@ -64,5 +78,17 @@ public class UltiDemon : UltiController
     // wait backward...
     // reset gravity and trigger
     // }
+
+
+    IEnumerator playSound(){
+
+        while(!isDonex){
+            audioSource.Play();
+
+            yield return new WaitForSeconds(0.25f);
+
+            audioSource.Stop();
+        }
+    }
 
 }

@@ -16,9 +16,9 @@ TagManager:
   - 
   - character
   - item
-  - 
-  - 
-  - 
+  - trigger
+  - enemy
+  - enemyWeapon
   - 
   - 
   - 

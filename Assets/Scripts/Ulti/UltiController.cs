@@ -5,72 +5,87 @@ using UnityEngine;
 public class UltiController : MonoBehaviour
 {
 
-	[HideInInspector]
-	public Move parent;
-	public float timeToAvailable = 1f;
-	public float utliDurationTime = 2f;
+    [HideInInspector]
+    // public Move parent;
+    public MyCharacterController parent;
+    public float timeToAvailable = 1f;
+    public float utliDurationTime = 2f;
     public float ultiDamage = 10f;
+    public bool canMoveWhenUlti = false;
 
+    // used by parent such CharcterController to handle events
+    public delegate void OnUltiDone();
+    public delegate void OnObjectInUltiRange(GameObject obj);
+    public event OnUltiDone EventUltiDone;
+    public event OnObjectInUltiRange EventObjectInUltiRange;
 
+    // used by UI such as Ulti Bar
     public delegate void OnPercentUltiChanged(float percent);
     public event OnPercentUltiChanged EventPercentUltiChanged;
     [HideInInspector]
-    public float PercentUlti {  get { return timePass/timeToAvailable;}}
+    public float PercentUlti { get { return timePass / timeToAvailable; } }
 
-    protected bool canUlti = false;
-    protected float timePass = 0;
+    // internal data 
+    protected bool canUlti;
+    protected float timePass;
 
-	// Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-    	// StartCoroutine(chargeUlti());
+        canUlti = false;
+        timePass = 0;
+        StartCoroutine(chargeUlti());
     }
 
-    // IEnumerator chargeUlti(){
+    IEnumerator chargeUlti()
+    {
 
-    // 	yield return new WaitForSeconds(this.timeToAvailable);
-    // 	this.canUlti = true;
+        // re-set time pass
+        canUlti = false;
+        timePass = 0;
 
-    //     while(true){
+        float timeStep = 0.02f;
+        while (timePass < timeToAvailable)
+        {
+            yield return new WaitForSeconds(timeStep);
 
-
-    //     }
-    // }
-
-    void FixedUpdate(){
-        if(!canUlti){
-
-            setTimePass(timePass + Time.fixedDeltaTime);
-
-            if(timePass >= timeToAvailable){
-                canUlti = true;
-            }
+            timePass = Mathf.Clamp(timePass + timeStep, 0, timeToAvailable);
+            EventPercentUltiChanged?.Invoke(PercentUlti);
         }
-    }
 
-    public void setTimePass(float seconds){
-        timePass = Mathf.Clamp(seconds, 0, timeToAvailable);
-        EventPercentUltiChanged?.Invoke(PercentUlti);
+        canUlti = true;
 
     }
 
-    public bool CanUlti(){
-    	return canUlti;
+
+
+    public bool CanUlti()
+    {
+        return canUlti;
     }
 
-    virtual public void Fire(){
+    virtual public void Fire()
+    {
 
-    	// TODO: custom ulti for each characters
+        // TODO: custom ulti for each character
 
     }
 
-    protected void handleUltiDone(){
-    	this.canUlti = false;
-        setTimePass(0);
-    	// StartCoroutine(chargeUlti());
+    protected void handleUltiDone()
+    {
+        // this.canUlti = false;
+        // setTimePass(0);
+        StartCoroutine(chargeUlti());
 
-    	// signal parent
-        parent.handleUltiDone();
+        // signal parent
+        // parent.handleUltiDone();
+        print("UltiController.cs: handleUltiDone");
+
+        EventUltiDone?.Invoke();
+    }
+
+    protected void handleObjectInRange(GameObject obj)
+    {
+        EventObjectInUltiRange?.Invoke(obj);
     }
 
 }
