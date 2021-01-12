@@ -9,7 +9,7 @@ public class UltiRange : MonoBehaviour
     // public AutoMoveAttack parent;
     public delegate void OnObjectIn(GameObject obj);
     public event OnObjectIn EventObjectIn;
-    
+
     List<Collider2D> colliders = new List<Collider2D>();
     bool isCheck = false;
 
@@ -21,6 +21,14 @@ public class UltiRange : MonoBehaviour
     void OnTriggerStay2D(Collider2D collision)
     {
         handleObjectInRange(collision);
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (colliders.Contains(collision))
+        {
+            colliders.Remove(collision);
+        }
     }
 
     void handleObjectInRange(Collider2D collision)
